@@ -9,6 +9,7 @@ function Sidebar() {
   const [selectProfile, setProfile] = useState(false);
   const router = useRouter();
   const [show, setShow] = useState(false);
+  const [showModal, setShowModal] = useState(true);
 
   useEffect(() => {
     if (
@@ -56,6 +57,12 @@ function Sidebar() {
   const toggleHandler = () => {
     setShow(!show);
   };
+
+  const NoHandler = () => {
+    setShowModal(false);
+  };
+
+  const logoutHandler = () => {};
 
   return (
     <>
@@ -203,11 +210,33 @@ function Sidebar() {
           ></i>
           <p className={`${Styles.textDasboard} ${Styles.close}`}>Profile</p>
         </div>
-        <div className={Styles.logout}>
+        <div
+          className={Styles.logout}
+          onClick={() => {
+            setShowModal(true);
+          }}
+        >
           <i className="fa-solid fa-arrow-right-from-bracket"></i>
           <p className={Styles["close"]}>Logout</p>
         </div>
       </div>
+      {showModal && (
+        <>
+          <div className={Styles.modal}>
+            <div className={Styles["modal-container"]}>
+              <p className={Styles.ask}>ARE YOU SURE WANT TO LOGOUT</p>
+              <div className={Styles["container-btn"]}>
+                <div className={Styles.btn} onClick={logoutHandler}>
+                  <p>YES</p>
+                </div>
+                <div className={Styles.btn} onClick={NoHandler}>
+                  <p>NO</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 }

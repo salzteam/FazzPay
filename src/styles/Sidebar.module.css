@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito+Sans:wght@400;600;700;800&display=swap');
+
 .container {
   background-color: white;
   width: 100%;
@@ -82,6 +84,71 @@
   cursor: pointer;
   user-select: none;
   margin-top: auto;
+}
+
+.modal {
+  width: 100%;
+  height: 100vw;
+  position: fixed;
+  z-index: 15;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.ask {
+  font-family: "Lilita One" !important;
+  font-weight: 400;
+  font-size: 40px;
+  /* color: var(--primary); */
+  width: 70%;
+  text-align: center;
+}
+
+.modal-container {
+  justify-content: space-between;
+  user-select: none;
+  display: flex;
+  font-weight: 700;
+  font-size: 25px;
+  flex-direction: column;
+  background-color: white;
+  width: 40%;
+  top: 10%;
+  left: 30%;
+  min-height: 20rem;
+  align-items: center;
+  border-radius: 25px;
+  padding: 2rem;
+  position: absolute;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  -ms-border-radius: 25px;
+  -o-border-radius: 25px;
+}
+
+.container-btn {
+  display: flex;
+  gap: 5rem;
+}
+
+.btn:active {
+  opacity: 0.8;
+}
+
+.btn {
+  cursor: pointer;
+  color: white;
+  text-align: center;
+  font-size: 25px;
+  width: 10rem;
+  border-radius: 25px;
+  padding: 1rem;
+  background-color: #6379f4;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  -ms-border-radius: 25px;
+  -o-border-radius: 25px;
 }
 
 .bg-modal {

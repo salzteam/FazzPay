@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Image from "next/image";
 import css from "src/styles/Navbar.module.css";
-import Sidebar from "components/sidebar";
+import Sidebar from "components/Sidebar";
 
 const myLoader = ({ src, width, quality }) => {
   return `${process.env.NEXT_PUBLIC_IMAGE}${src}?w=${width}&q=${quality || 75}`;
