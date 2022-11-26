@@ -102,7 +102,7 @@ export default function Login() {
             ></i>
           </div>
           <div className={styles["link-forgot"]}>
-            <Link href="/forgot" passHref className={styles.fgrt}>
+            <Link href="/reset-password" passHref className={styles.fgrt}>
               Forgot password?
             </Link>
             {notactive && (

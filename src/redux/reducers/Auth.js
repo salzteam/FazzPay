@@ -7,6 +7,8 @@ const initialState = {
   isError: false,
   isFulfilled: false,
   registerFulfilled: false,
+  resetFullfilled: false,
+  forgotFullfilled: false,
   error: null,
 };
 
@@ -33,6 +35,46 @@ const authReducer = (prevState = initialState, { payload, type }) => {
       return {
         ...prevState,
         registerFulfilled: true,
+        isLoading: false,
+      };
+    case authForgot.concat("_", Pending):
+      return {
+        ...prevState,
+        isLoading: true,
+        isError: false,
+        isFulfilled: false,
+      };
+    case authForgot.concat("_", Rejected):
+      return {
+        ...prevState,
+        isError: true,
+        isLoading: false,
+        error: payload.error.response.data.msg,
+      };
+    case authForgot.concat("_", Fulfilled):
+      return {
+        ...prevState,
+        forgotFullfilled: true,
+        isLoading: false,
+      };
+    case authReset.concat("_", Pending):
+      return {
+        ...prevState,
+        isLoading: true,
+        isError: false,
+        isFulfilled: false,
+      };
+    case authReset.concat("_", Rejected):
+      return {
+        ...prevState,
+        isError: true,
+        isLoading: false,
+        error: payload.error.response.data.msg,
+      };
+    case authReset.concat("_", Fulfilled):
+      return {
+        ...prevState,
+        resetFullfilled: true,
         isLoading: false,
       };
 

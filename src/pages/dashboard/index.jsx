@@ -1,19 +1,62 @@
-import React, { useState } from "react";
-import Image from "next/image";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useRouter } from "next/router";
 import Header from "components/Header";
 import Navbar from "components/Navbar";
 import Sidebar from "components/Sidebar";
 import Footer from "components/Footer";
 import css from "styles/Home.module.css";
-import user from "src/assets/1.png";
-import user2 from "src/assets/image.png";
-import { useRouter } from "next/router";
+import authAction from "src/redux/action/User";
+import transactionAction from "src/redux/action/Transaction";
 
-function Home({ children }) {
+import Recive from "components/ReciveHistory";
+import Paid from "components/PaidHistory";
+
+function Home() {
+  const [data, setData] = useState();
+
   const router = useRouter();
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
+  const users = useSelector((state) => state.user);
+  const transaction = useSelector((state) => state.transaction);
+
+  const getData = () => {
+    dispatch(authAction.profileidThunk(auth.userData.token, auth.userData.id));
+    dispatch(authAction.getDashboards(auth.userData.token, auth.userData.id));
+    dispatch(
+      transactionAction.HistoryNotifThunk(
+        "page=1&limit=20",
+        auth.userData.token
+      )
+    );
+  };
+
+  useEffect(() => {
+    if (!auth.userData.token) router.push("/login");
+    getData();
+  }, []);
+
+  const costing = (price) => {
+    return (
+      "Rp" +
+      parseFloat(price)
+        .toFixed()
+        .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")
+    );
+  };
+
+  const numberPhone = (number) => {
+    let phone = String(number).trim();
+    if (phone.startsWith("0")) {
+      phone = "+62 " + phone.slice(1);
+      return phone;
+    }
+  };
+
   return (
     <>
-      <Header title={"HOME"} />
+      <Header title={"Dashboard"} />
       <Navbar>
         <div className={css.container}>
           <div className={`col-lg-3 ${css.onMobile}`}>
@@ -24,8 +67,13 @@ function Home({ children }) {
               <div className={css["side-top"]}>
                 <div className={css["top-left"]}>
                   <p className={css.balance}>Balance</p>
-                  <p className={css.price}>Rp120.000</p>
-                  <p className={css.phone}>+62 813-9387-7946</p>
+                  <p className={css.price}>
+                    {costing(users.profile.balance || 0)}
+                  </p>
+                  <p className={css.phone}>
+                    {numberPhone(users.profile.noTelp)}
+                  </p>
+                  {/* <p className={css.phone}>+62 813-9387-7946</p> */}
                 </div>
                 <div className={`${css["top-btn"]} ${css.btnHide}`}>
                   <div className={css.btn}>
@@ -68,7 +116,7 @@ function Home({ children }) {
                           marginTop: "0.5rem",
                         }}
                       >
-                        Rp2.120.000
+                        {costing(users.dashboard.totalIncome)}
                       </p>
                     </div>
                     <div>
@@ -88,7 +136,7 @@ function Home({ children }) {
                           marginTop: "0.5rem",
                         }}
                       >
-                        Rp1.560.000
+                        {costing(users.dashboard.totalExpense)}
                       </p>
                     </div>
                   </div>
@@ -139,54 +187,35 @@ function Home({ children }) {
                       See all
                     </p>
                   </div>
-                  <div className={css["card"]}>
-                    <div className={css["image-name"]}>
-                      <Image src={user} alt="user" width={56} height={56} />
-                      <div>
-                        <p className={css["username"]}>Samuel Suhi</p>
-                        <p className={css.status}>Accept</p>
-                      </div>
-                    </div>
+                  {transaction.notification ? (
+                    transaction.notification.map((data, index) => {
+                      if (index < 4) {
+                        if (data.type !== "send") {
+                          return (
+                            <Recive
+                              key={index}
+                              image={data.image}
+                              username={data.fullName}
+                              type={data.type}
+                              price={costing(parseInt(data.amount))}
+                            />
+                          );
+                        }
+                        return (
+                          <Paid
+                            key={index}
+                            image={data.image}
+                            username={data.fullName}
+                            price={costing(parseInt(data.amount))}
+                          />
+                        );
+                      }
+                    })
+                  ) : (
                     <div>
-                      <p className={css.recive}>+Rp50.000</p>
+                      <div className={css["no-data"]}>No Data Available</div>
                     </div>
-                  </div>
-                  <div className={css["card"]}>
-                    <div className={css["image-name"]}>
-                      <Image src={user2} alt="user" width={56} height={56} />
-                      <div>
-                        <p className={css["username"]}>Samuel Suhi</p>
-                        <p className={css.status}>Transfer</p>
-                      </div>
-                    </div>
-                    <div>
-                      <p className={css.paid}>-Rp149.000</p>
-                    </div>
-                  </div>
-                  <div className={css["card"]}>
-                    <div className={css["image-name"]}>
-                      <Image src={user} alt="user" width={56} height={56} />
-                      <div>
-                        <p className={css["username"]}>Samuel Suhi</p>
-                        <p className={css.status}>Accept</p>
-                      </div>
-                    </div>
-                    <div>
-                      <p className={css.recive}>+Rp50.000</p>
-                    </div>
-                  </div>
-                  <div className={css["card"]}>
-                    <div className={css["image-name"]}>
-                      <Image src={user2} alt="user" width={56} height={56} />
-                      <div>
-                        <p className={css["username"]}>Samuel Suhi</p>
-                        <p className={css.status}>Transfer</p>
-                      </div>
-                    </div>
-                    <div>
-                      <p className={css.paid}>-Rp149.000</p>
-                    </div>
-                  </div>
+                  )}
                 </div>
               </div>
             </aside>

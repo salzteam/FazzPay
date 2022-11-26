@@ -10,14 +10,22 @@ const coonfig = (token) => {
   };
 };
 
-export const register = (body) => axios.post(`${baseUrl}/register`, body);
+export const register = (body) => {
+  return axios.post(`${baseUrl}/register`, body);
+};
 
-export const login = (body) => axios.post(`${baseUrl}/login`, body);
+export const login = (body) => {
+  return axios.post(`${baseUrl}/login`, body);
+};
 
-export const logout = () => axios.post(`${baseUrl}/logout`);
+export const logout = () => {
+  return axios.post(`${baseUrl}/logout`);
+};
 
-export const forgotPassword = (body) =>
-  axios.post(`${baseUrl}/forgot-password`, body);
+export const forgotPassword = (body) => {
+  return axios.post(`${baseUrl}/forgot-password`, body);
+};
 
-export const resetPassword = (body) =>
-  axios.post(`${baseUrl}/reset-password`, body);
+export const resetPassword = (body) => {
+  return axios.patch(`${baseUrl}/reset-password`, body);
+};

@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const baseUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}/user`;
+const baseUrls = `${process.env.NEXT_PUBLIC_BACKEND_URL}`;
 
 const config = (token) => {
   return {
@@ -12,5 +13,13 @@ const config = (token) => {
 
 export const createPin = (body, id, token) => {
   const pin = { pin: body };
-  axios.patch(`${baseUrl}/pin/${id}`, pin, config(token));
+  return axios.patch(`${baseUrl}/pin/${id}`, pin, config(token));
+};
+
+export const getDataById = (token, id) => {
+  return axios.get(`${baseUrl}/profile/${id}`, config(token));
+};
+
+export const getDashboard = (token, id) => {
+  return axios.get(`${baseUrls}/dashboard/${id}`, config(token));
 };
