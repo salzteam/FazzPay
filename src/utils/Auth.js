@@ -2,7 +2,7 @@ import axios from "axios";
 
 const baseUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth`;
 
-const coonfig = (token) => {
+const config = (token) => {
   return {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -18,8 +18,8 @@ export const login = (body) => {
   return axios.post(`${baseUrl}/login`, body);
 };
 
-export const logout = () => {
-  return axios.post(`${baseUrl}/logout`);
+export const logout = (token) => {
+  return axios.post(`${baseUrl}/logout`, config(token));
 };
 
 export const forgotPassword = (body) => {

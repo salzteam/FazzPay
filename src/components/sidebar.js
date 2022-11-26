@@ -1,15 +1,22 @@
 import { useRouter } from "next/router";
+import { useSelector, useDispatch } from "react-redux";
 import React, { useState, useEffect } from "react";
 import Styles from "styles/Sidebar.module.css";
+import authAction from "src/redux/action/Auth";
 
 function Sidebar() {
   const [selectDashboard, setDashboard] = useState(false);
   const [selectTransfer, setTransfer] = useState(false);
   const [selectTopUp, setTopUp] = useState(false);
   const [selectProfile, setProfile] = useState(false);
+
   const router = useRouter();
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
+
   const [show, setShow] = useState(false);
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [isLoading, setisLoading] = useState(false);
 
   useEffect(() => {
     if (
@@ -62,7 +69,17 @@ function Sidebar() {
     setShowModal(false);
   };
 
-  const logoutHandler = () => {};
+  useEffect(() => {
+    if (!auth.userData.token) router.push("/login");
+  }, [auth.userData.token]);
+
+  useEffect(() => {
+    if (auth.isLoading) setisLoading(true);
+  }, [auth]);
+
+  const logoutHandler = () => {
+    dispatch(authAction.logoutThunk(auth.userData.token));
+  };
 
   return (
     <>
@@ -226,7 +243,12 @@ function Sidebar() {
             <div className={Styles["modal-container"]}>
               <p className={Styles.ask}>ARE YOU SURE WANT TO LOGOUT</p>
               <div className={Styles["container-btn"]}>
-                <div className={Styles.btn} onClick={logoutHandler}>
+                <div
+                  className={`${Styles.btn} ${
+                    isLoading ? Styles.loading : undefined
+                  }`}
+                  onClick={logoutHandler}
+                >
                   <p>YES</p>
                 </div>
                 <div className={Styles.btn} onClick={NoHandler}>

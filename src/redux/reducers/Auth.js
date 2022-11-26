@@ -115,7 +115,7 @@ const authReducer = (prevState = initialState, { payload, type }) => {
         ...prevState,
         isError: true,
         isLoading: false,
-        error: payload.error.response.data.msg,
+        error: payload.error,
       };
     case authLogout.concat("_", Fulfilled):
       return initialState;
