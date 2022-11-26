@@ -23,3 +23,7 @@ export const getDataById = (token, id) => {
 export const getDashboard = (token, id) => {
   return axios.get(`${baseUrls}/dashboard/${id}`, config(token));
 };
+
+export const searchUser = (params, token) => {
+  return axios.get(`${baseUrl}?${params}`, config(token));
+};

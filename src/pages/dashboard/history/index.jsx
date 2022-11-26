@@ -62,7 +62,7 @@ function Home() {
 
   return (
     <>
-      <Header title={"HOME"} />
+      <Header title={"History"} />
       <Navbar />
       <div className={css.container}>
         <div className={`col-lg-3 ${css.onMobile}`}>

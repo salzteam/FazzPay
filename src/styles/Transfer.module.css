@@ -10,6 +10,16 @@
   font-family: "Nunito Sans";
 }
 
+.container-card {
+  margin-top: 1rem;
+  max-height: 28rem !important;
+  overflow: auto;
+}
+
+.container-card::-webkit-scrollbar {
+  display: none;
+}
+
 .side-top {
   display: flex;
   justify-content: space-between;
@@ -292,7 +302,7 @@
 }
 
 .card {
-  margin-top: 2.5rem;
+  margin-top: 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -362,6 +372,8 @@
 
 .side {
   width: 100%;
+  min-height: 497px;
+  ;
 }
 
 @media screen and (max-width: 768px) {

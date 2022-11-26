@@ -1,5 +1,10 @@
 import { ActionType } from "redux-promise-middleware";
-import { createPin, getDataById, getDashboard } from "src/utils/User";
+import {
+  createPin,
+  getDataById,
+  getDashboard,
+  searchUser,
+} from "src/utils/User";
 import { ACTION_STRING } from "./actionStrings";
 
 const { Pending, Rejected, Fulfilled } = ActionType;
@@ -40,6 +45,30 @@ const dashboardFulfilled = (data) => ({
   payload: { data },
 });
 
+const searchPending = () => ({
+  type: ACTION_STRING.userSearch.concat("_", Pending),
+});
+const searchRejected = (error) => ({
+  type: ACTION_STRING.userSearch.concat("_", Rejected),
+  payload: { error },
+});
+const searchFulfilled = (data) => ({
+  type: ACTION_STRING.userSearch.concat("_", Fulfilled),
+  payload: { data },
+});
+
+const updatesearchPending = () => ({
+  type: ACTION_STRING.updateSearch.concat("_", Pending),
+});
+const updatesearchRejected = (error) => ({
+  type: ACTION_STRING.updateSearch.concat("_", Rejected),
+  payload: { error },
+});
+const updatesearchFulfilled = (data) => ({
+  type: ACTION_STRING.updateSearch.concat("_", Fulfilled),
+  payload: { data },
+});
+
 const pinThunk = (body, id, token) => {
   return async (dispatch) => {
     try {
@@ -77,10 +106,34 @@ const getDashboards = (token, id) => {
   };
 };
 
+const getUser = (token, params) => {
+  return async (dispatch) => {
+    try {
+      dispatch(searchPending());
+      const result = await searchUser(token, params);
+      dispatch(searchFulfilled(result.data));
+    } catch (error) {
+      dispatch(searchRejected(error));
+    }
+  };
+};
+const updateSearch = (data) => {
+  return async (dispatch) => {
+    try {
+      dispatch(updatesearchPending());
+      dispatch(updatesearchFulfilled(data));
+    } catch (error) {
+      dispatch(updatesearchRejected(error));
+    }
+  };
+};
+
 const userAction = {
   pinThunk,
   profileidThunk,
   getDashboards,
+  getUser,
+  updateSearch,
 };
 
 module.exports = userAction;

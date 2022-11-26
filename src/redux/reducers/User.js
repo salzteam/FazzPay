@@ -6,6 +6,9 @@ const initialState = {
   isError: false,
   isFulfilled: false,
   error: null,
+  search: [],
+  allsearch: null,
+  pagination: null,
   profile: {
     firsName: null,
     lastName: null,
@@ -24,7 +27,8 @@ const initialState = {
 
 const userReducer = (prevState = initialState, { payload, type }) => {
   const { Pending, Rejected, Fulfilled } = ActionType;
-  const { userPin, userGetprofileid, userDashboard } = ACTION_STRING;
+  const { userPin, userGetprofileid, userDashboard, userSearch, updateSearch } =
+    ACTION_STRING;
   switch (type) {
     case userPin.concat("_", Pending):
       return {
@@ -44,6 +48,48 @@ const userReducer = (prevState = initialState, { payload, type }) => {
         ...prevState,
         isFulfilled: true,
         isLoading: false,
+      };
+    case userSearch.concat("_", Pending):
+      return {
+        ...prevState,
+        isLoading: true,
+        isError: false,
+        isFulfilled: false,
+      };
+    case userSearch.concat("_", Rejected):
+      return {
+        ...prevState,
+        isError: true,
+        isLoading: false,
+      };
+    case userSearch.concat("_", Fulfilled):
+      return {
+        ...prevState,
+        isFulfilled: true,
+        isLoading: false,
+        allsearch: payload.data.data,
+        search: payload.data.data,
+        pagination: payload.data.pagination,
+      };
+    case updateSearch.concat("_", Pending):
+      return {
+        ...prevState,
+        isLoading: true,
+        isError: false,
+        isFulfilled: false,
+      };
+    case updateSearch.concat("_", Rejected):
+      return {
+        ...prevState,
+        isError: true,
+        isLoading: false,
+      };
+    case updateSearch.concat("_", Fulfilled):
+      return {
+        ...prevState,
+        isFulfilled: true,
+        isLoading: false,
+        search: payload.data,
       };
     case userDashboard.concat("_", Pending):
       return {

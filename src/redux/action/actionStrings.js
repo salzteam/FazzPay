@@ -9,4 +9,6 @@ export const ACTION_STRING = {
   userDashboard: "GET_DASHBOARD",
   userHistoryNotif: "GET_HISTORY_NOTIF",
   userHistoryLimit: "GET_HISTORY_LIMIT",
+  userSearch: "GET_USER",
+  updateSearch: "UPDATE_SEARCH",
 };
