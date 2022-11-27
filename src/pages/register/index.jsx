@@ -118,6 +118,17 @@ export default function Register() {
               onClick={togglePassword}
             ></i>
           </div>
+          {auth.isError && (
+            <p
+              style={{
+                textAlign: "center",
+                color: "var(--red)",
+                fontWeight: "700",
+              }}
+            >
+              {auth.error}
+            </p>
+          )}
           <button type="submit" disabled={emptyForm} onClick={sendHandler}>
             Register
           </button>

@@ -1,42 +1,97 @@
+import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import styles from "src/styles/Modal.module.css";
+import { useRouter } from "next/router";
+import { useSelector, useDispatch } from "react-redux";
+
+import userAction from "src/redux/action/User";
+import transactionAction from "src/redux/action/Transaction";
+
 const ReactCodeInput = dynamic(import("react-code-input"));
 
-const ModalConfirm = ({ open, setOpen }) => {
+const ModalConfirm = () => {
+  const [pin, setPin] = useState("");
+  const [btnAccess, setBtn] = useState();
+  const [errPin, setErrpin] = useState();
+
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const users = useSelector((state) => state.user);
+  const auth = useSelector((state) => state.auth);
+  const transaction = useSelector((state) => state.transaction);
+
+  const checkPinHandler = (e) => {
+    e.preventDefault();
+    setErrpin();
+    if (!btnAccess) return;
+    dispatch(userAction.checkpinThunk(pin, auth.userData.token));
+  };
+
+  const pinHandler = (e) => {
+    setPin(e);
+  };
+
+  useEffect(() => {
+    if (pin.length === 6) setBtn(true);
+    if (pin.length < 6) setBtn(false);
+  }, [pin]);
+
+  useEffect(() => {
+    // if (users.isLoading) setBtn(true);
+    if (users.pinWorng) setErrpin("Pin Worng !");
+    if (users.pinMsg === "Correct pin") {
+      const sendData = {
+        receiverId: transaction.transfer.receiverId,
+        amount: transaction.transfer.total,
+        notes: transaction.transfer.notes,
+      };
+      dispatch(
+        transactionAction.createTransactionThunk(sendData, auth.userData.token)
+      );
+    }
+    if (transaction.statusTransfer) router.push("/transfer/status");
+  }, [users, auth, dispatch, transaction, router]);
+
   return (
     <>
-      {open && (
-        <div>
-          <div className={styles.modal}>
-            <div className={styles["modal-content"]}>
-              <div className={styles["pin-container"]}>
-                <div className={styles.title}>
-                  <h2 className={styles["h2"]}>Enter PIN to Transfer</h2>
-                  <p className={styles["description"]}>
-                    Enter your 6 digits Fazzpay PIN for confirmation to continue
-                    transfering money.
+      <div className={styles.modal}>
+        <div className={styles["modal-content"]}>
+          <div className={styles["pin-container"]}>
+            <div className={styles.title}>
+              <h2 className={styles["h2"]}>Enter PIN to Transfer</h2>
+              <p className={styles["description"]}>
+                Enter your 6 digits Fazzpay PIN for confirmation to continue
+                transfering money.
+              </p>
+            </div>
+            <div className={styles["form-container"]}>
+              <form className={styles["form"]}>
+                <div className={styles["otp-input"]}>
+                  <ReactCodeInput
+                    type="number"
+                    fields={6}
+                    className={styles["otp-box"]}
+                    onChange={pinHandler}
+                  />
+                </div>
+                {errPin && (
+                  <p style={{ color: "var(--red)", fontWeight: "700" }}>
+                    {errPin}
                   </p>
+                )}
+                <div
+                  onClick={checkPinHandler}
+                  className={btnAccess ? undefined : styles["not-accept"]}
+                  style={{ justifyContent: "right", display: "flex" }}
+                >
+                  <button type="submit">Confirm</button>
                 </div>
-                <div className={styles["form-container"]}>
-                  <form className={styles["form"]}>
-                    <div className={styles["otp-input"]}>
-                      <ReactCodeInput
-                        type="password"
-                        fields={6}
-                        className={styles["otp-box"]}
-                      />
-                    </div>
-                    <div onClick={() => setOpen(!open)}>
-                      <button type="submit" className="btn btn-primary">
-                        Confirm
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
+              </form>
             </div>
           </div>
-          {/*<div className={styles.modal}>
+        </div>
+      </div>
+      {/*<div className={styles.modal}>
             <div className={styles["modal-content"]}>
               <div className={styles["modal-header"]}>
                 <p className={styles["modal-title"]}>Logout</p>
@@ -53,8 +108,6 @@ const ModalConfirm = ({ open, setOpen }) => {
               </div>
             </div>
           </div>*/}
-        </div>
-      )}
     </>
   );
 };

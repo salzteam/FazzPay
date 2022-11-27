@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { setCookie } from "cookies-next";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
 import Layout from "components/LayoutAuth";
@@ -54,6 +55,8 @@ export default function Login() {
     )
       setError(true);
     if (auth.isFulfilled) {
+      setCookie("token", auth.userData.token);
+      setCookie("id", auth.userData.id);
       if (!auth.userData.pin) router.push("/createpin");
       if (auth.userData.pin) router.push("/dashboard");
     }

@@ -9,6 +9,8 @@ const initialState = {
   search: [],
   allsearch: null,
   pagination: null,
+  pinMsg: null,
+  pinWorng: null,
   profile: {
     firsName: null,
     lastName: null,
@@ -27,8 +29,14 @@ const initialState = {
 
 const userReducer = (prevState = initialState, { payload, type }) => {
   const { Pending, Rejected, Fulfilled } = ActionType;
-  const { userPin, userGetprofileid, userDashboard, userSearch, updateSearch } =
-    ACTION_STRING;
+  const {
+    userPin,
+    userGetprofileid,
+    userDashboard,
+    userSearch,
+    updateSearch,
+    checkPin,
+  } = ACTION_STRING;
   switch (type) {
     case userPin.concat("_", Pending):
       return {
@@ -48,6 +56,29 @@ const userReducer = (prevState = initialState, { payload, type }) => {
         ...prevState,
         isFulfilled: true,
         isLoading: false,
+      };
+    case checkPin.concat("_", Pending):
+      return {
+        ...prevState,
+        isLoading: true,
+        isError: false,
+        isFulfilled: false,
+        pinMsg: null,
+        pinWorng: null,
+      };
+    case checkPin.concat("_", Rejected):
+      return {
+        ...prevState,
+        isError: true,
+        isLoading: false,
+        pinWorng: true,
+      };
+    case checkPin.concat("_", Fulfilled):
+      return {
+        ...prevState,
+        isFulfilled: true,
+        isLoading: false,
+        pinMsg: payload.pin.data.msg,
       };
     case userSearch.concat("_", Pending):
       return {

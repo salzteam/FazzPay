@@ -17,6 +17,7 @@ function ReciveHistory({ image, username, price, type }) {
             alt="user"
             width={56}
             height={56}
+            style={{ borderRadius: "10px" }}
           />
           <div>
             <p className={css["username"]}>{username}</p>

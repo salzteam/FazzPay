@@ -16,6 +16,10 @@ export const createPin = (body, id, token) => {
   return axios.patch(`${baseUrl}/pin/${id}`, pin, config(token));
 };
 
+export const checkPin = (pin, token) => {
+  return axios.get(`${baseUrl}/pin/${pin}`, config(token));
+};
+
 export const getDataById = (token, id) => {
   return axios.get(`${baseUrl}/profile/${id}`, config(token));
 };

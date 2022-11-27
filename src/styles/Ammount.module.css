@@ -237,7 +237,7 @@
 }
 
 .bottom-right {
-  width: 100%;
+  max-width: 122vh;
   background-color: white;
   border-radius: 25px;
   padding: 25px;
@@ -384,7 +384,7 @@
 .searchImage {
   background: transparent;
   outline: none;
-  color: #b5bdcc;
+  /* color: #b5bdcc; */
 }
 
 .card-detail {
@@ -421,6 +421,7 @@
   font-style: normal;
   font-weight: 400;
   color: #7a7886;
+  width: 44%;
 }
 
 .input-transfer {
@@ -435,6 +436,14 @@
   align-items: center;
   justify-content: center;
   margin: 2rem;
+  width: 343px;
+  gap: .5rem;
+  border-bottom: 1px solid rgba(169, 169, 169, 0.8);
+}
+
+.on {
+  color: var(--primary) !important;
+  border-bottom: 1px solid var(--primary) !important;
 }
 
 .input-transfer input {
@@ -445,7 +454,23 @@
   font-weight: 700;
   font-size: 42px;
   text-align: center;
-  color: #b5bdcc;
+  color: var(--primary);
+}
+
+.rp {
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 40px;
+}
+
+.input-transfer input[type="number"]::-webkit-outer-spin-button,
+.input-transfer input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input-transfer input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 .input-transfer2 input {
@@ -454,8 +479,7 @@
   font-family: "Nunito Sans";
   font-style: normal;
   font-weight: 400;
-  color: rgba(169, 169, 169, 0.8);
-  border-bottom: 1px solid rgba(169, 169, 169, 0.8);
+  /* color: rgba(169, 169, 169, 0.8); */
 }
 
 .availability {
@@ -465,7 +489,7 @@
   font-size: 16px;
   color: #3a3d42;
   text-align: center;
-  margin: 1rem 0rem 3rem 0rem;
+  margin: 1rem 0rem 1rem 0rem;
 }
 
 .image-pen {

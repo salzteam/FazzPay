@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import styles from "styles/status.module.css";
 import Sidebar from "components/Sidebar";
@@ -7,9 +7,54 @@ import Header from "components/Header";
 import Navbar from "components/Navbar";
 import Footer from "components/Footer";
 import { useRouter } from "next/router";
+import { useSelector, useDispatch } from "react-redux";
+
+import defaultPict from "src/assets/default-profile-pic.webp";
+import transactionAction from "src/redux/action/Transaction";
+
+const myLoader = ({ src, width, quality }) => {
+  return `${process.env.NEXT_PUBLIC_IMAGE}${src}?w=${width}&q=${quality || 75}`;
+};
 
 function Status() {
+  const [success, setSuccess] = useState(false);
+  const [failed, setfailed] = useState(false);
+
   const router = useRouter();
+  const dispatch = useDispatch();
+  const transaction = useSelector((state) => state.transaction);
+  const transfer = transaction.transfer;
+
+  const homeHandler = (e) => {
+    e.preventDefault();
+    dispatch(transactionAction.resetTransferThunk());
+    router.push("/dashboard");
+  };
+
+  useEffect(() => {
+    if (!transaction.statusTransfer) router.push("/transfer/");
+    if (transaction.statusTransfer === "Success transfer")
+      return setSuccess(true);
+    setfailed(true);
+  }, [transaction, router]);
+
+  const costing = (price) => {
+    return (
+      "Rp" +
+      parseFloat(price)
+        .toFixed()
+        .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")
+    );
+  };
+
+  const numberPhone = (number) => {
+    let phone = String(number).trim();
+    if (phone.startsWith("0")) {
+      phone = "+62 " + phone.slice(1);
+      return phone;
+    }
+  };
+
   return (
     <>
       <Header title={"Status"} />
@@ -19,68 +64,100 @@ function Status() {
             <Sidebar />
           </div>
           <div className={`col-lg-9 ${styles["status-info"]}`}>
-            <div className={styles.status}>
-              {/* {props.transferResult.status &&
-              props.transferResult.status === 200 ? (
-                <i className={`bi bi-check-lg`}></i>
-              ) : (
-                <i className={`bi bi-x-lg`}></i>
-              )} */}
-            </div>
-            <p className={styles["status-text"]}>
-              {/* {props.transferResult.msg || ""} */}
-            </p>
+            {success && (
+              <>
+                <div className={styles["success"]}>
+                  <i className={"fa-solid fa-check"}></i>
+                  {/* <i className={`fa-sharp fa-solid fa-x`}></i> */}
+                </div>
+                <p className={styles["status-text"]}>
+                  <p>Transfer Success</p>
+                </p>
+              </>
+            )}
+            {failed && (
+              <>
+                <div className={styles["failed"]}>
+                  <i className={"fa-sharp fa-solid fa-x"}></i>
+                </div>
+                <p className={styles["status-text"]}>
+                  <p>Transfer Failed</p>
+                </p>
+              </>
+            )}
             <div className={styles["info"]}>
               <div className={styles["item-container"]}>
                 <p className={styles["info-label"]}>Amount</p>
-                <p className={styles["info-value"]}>
-                  {/* {`Rp. ${
-                    currencyPeriod(props.transferResult.data.amount) || ""
-                  }`} */}
-                </p>
+                {transaction.transfer && (
+                  <p className={styles["info-value"]}>
+                    {costing(transaction.transfer.total)}
+                  </p>
+                )}
               </div>
               <div className={styles["item-container"]}>
                 <p className={styles["info-label"]}>Balance Left</p>
-                <p className={styles["info-value"]}>
-                  {/* {`Rp. ${
-                    currencyPeriod(props.transferResult.data.balance) || ""
-                  }`} */}
-                </p>
+                {transaction.transfer && (
+                  <p className={styles["info-value"]}>
+                    {costing(transaction.transfer.balanceleft)}
+                  </p>
+                )}
               </div>
               <div className={styles["item-container"]}>
                 <p className={styles["info-label"]}>Date & Time</p>
-                <p className={styles["info-value"]}>
-                  {/* {Date(props.transferData.date) || ""} */}
-                </p>
+                {transaction.transfer && (
+                  <p className={styles["info-value"]}>
+                    {transaction.transfer.time}
+                  </p>
+                )}
               </div>
               <div className={styles["item-container"]}>
                 <p className={styles["info-label"]}>Notes</p>
-                <p className={styles["info-value"]}>
-                  {/* {props.transferResult.data.notes || "-"} */}
-                </p>
+                {transaction.transfer && (
+                  <p className={styles["info-value"]}>
+                    {transaction.transfer.notes}
+                  </p>
+                )}
               </div>
             </div>
             <section className={styles["receiver"]}>
               <p className={styles["title"]}>Transfer to</p>
               <div className={styles["contact-item"]}>
-                <div className={styles["img"]}>
-                  <Image
-                    src={profile}
-                    placeholder={"empty"}
-                    alt="profile"
-                    layout="fill"
-                    objectFit="cover"
-                  />
-                </div>
+                {transaction.transfer && (
+                  <div className={styles["img"]}>
+                    {transaction.transfer.image && (
+                      <Image
+                        loader={myLoader}
+                        src={transaction.transfer.image}
+                        alt="profile"
+                        width={56}
+                        height={56}
+                        style={{ borderRadius: "10px" }}
+                      />
+                    )}
+                    {!transaction.transfer.image && (
+                      <Image
+                        src={defaultPict}
+                        alt="profile"
+                        width={56}
+                        height={56}
+                        style={{ borderRadius: "10px" }}
+                      />
+                    )}
+                  </div>
+                )}
                 <div className={styles["name-phone"]}>
-                  <p className={styles["name"]}>
-                    Putra Ganteng
-                    {/* {`${props.transferData.receiverData.firstName} ${props.transferData.receiverData.lastName}`} */}
-                  </p>
-                  <p className={styles["phone"]}>
-                    0800-0800-0800
-                    {/* {props.transferData.receiverData.noTelp | "-"} */}
-                  </p>
+                  {transaction.transfer && (
+                    <p className={styles["name"]}>
+                      {transaction.transfer.fullname}
+                      {/* {`${props.transferData.receiverData.firstName} ${props.transferData.receiverData.lastName}`} */}
+                    </p>
+                  )}
+                  {transaction.transfer && (
+                    <p className={styles["phone"]}>
+                      {numberPhone(transaction.transfer.phone)}
+                      {/* {props.transferData.receiverData.noTelp | "-"} */}
+                    </p>
+                  )}
                 </div>
               </div>
             </section>
@@ -96,9 +173,7 @@ function Status() {
               </a>
               <button
                 className={`btn btn-primary ${styles["home"]}`}
-                onClick={() => {
-                  router.push("/home/test");
-                }}
+                onClick={homeHandler}
               >
                 Back to Home
               </button>

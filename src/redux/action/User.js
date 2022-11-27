@@ -4,6 +4,7 @@ import {
   getDataById,
   getDashboard,
   searchUser,
+  checkPin,
 } from "src/utils/User";
 import { ACTION_STRING } from "./actionStrings";
 
@@ -18,6 +19,18 @@ const pinRejected = (error) => ({
 });
 const pinFulfilled = (pin) => ({
   type: ACTION_STRING.userPin.concat("_", Fulfilled),
+  payload: { pin },
+});
+
+const checkpinPending = () => ({
+  type: ACTION_STRING.checkPin.concat("_", Pending),
+});
+const checkpinRejected = (error) => ({
+  type: ACTION_STRING.checkPin.concat("_", Rejected),
+  payload: { error },
+});
+const checkpinFulfilled = (pin) => ({
+  type: ACTION_STRING.checkPin.concat("_", Fulfilled),
   payload: { pin },
 });
 
@@ -80,25 +93,45 @@ const pinThunk = (body, id, token) => {
     }
   };
 };
-
-const profileidThunk = (token, id) => {
+const checkpinThunk = (pin, token) => {
   return async (dispatch) => {
     try {
-      dispatch(profileidPending());
-      const result = await getDataById(token, id);
-      dispatch(profileidFulfilled(result.data));
+      dispatch(checkpinPending());
+      const result = await checkPin(pin, token);
+      dispatch(checkpinFulfilled(result));
+    } catch (error) {
+      dispatch(checkpinRejected(error));
+    }
+  };
+};
+
+const profileidThunk = (data) => {
+  return async (dispatch) => {
+    try {
+      // dispatch(profileidPending());
+      dispatch(profileidFulfilled(data));
     } catch (error) {
       dispatch(profileidRejected(error));
     }
   };
 };
+// const profileidThunk = (token, id) => {
+//   return async (dispatch) => {
+//     try {
+//       dispatch(profileidPending());
+//       const result = await getDataById(token, id);
+//       dispatch(profileidFulfilled(result.data));
+//     } catch (error) {
+//       dispatch(profileidRejected(error));
+//     }
+//   };
+// };
 
 const getDashboards = (token, id) => {
   return async (dispatch) => {
     try {
       dispatch(dashboardPending());
       const result = await getDashboard(token, id);
-      console.log(result.data.data);
       dispatch(dashboardFulfilled(result.data.data));
     } catch (error) {
       dispatch(dashboardRejected(error));
@@ -134,6 +167,7 @@ const userAction = {
   getDashboards,
   getUser,
   updateSearch,
+  checkpinThunk,
 };
 
 module.exports = userAction;

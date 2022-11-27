@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import Image from "next/image";
 import css from "src/styles/Navbar.module.css";
 import Sidebar from "components/Sidebar";
+import defaultPict from "src/assets/default-profile-pic.webp";
 
 const myLoader = ({ src, width, quality }) => {
   return `${process.env.NEXT_PUBLIC_IMAGE}${src}?w=${width}&q=${quality || 75}`;
@@ -50,11 +51,19 @@ function Navbar({ children }) {
           <p className={css.title}>FazzPay</p>
         </div>
         <div className={css["navbar-right"]}>
-          <div className={css["mobile"]}>
-            {users.profile.image && (
+          <div className={css["mobile"]} style={{ minWidth: "11rem" }}>
+            {users.profile.image ? (
               <Image
                 loader={myLoader}
                 src={users.profile.image}
+                alt="profile"
+                width={56}
+                height={56}
+                style={{ cursor: "pointer", borderRadius: "10px" }}
+              />
+            ) : (
+              <Image
+                src={defaultPict}
                 alt="profile"
                 width={56}
                 height={56}
@@ -71,11 +80,19 @@ function Navbar({ children }) {
               {/* <p className={css["navbar-phone"]}>+62 8139 3877 7946</p> */}
             </div>
           </div>
-          <div className={css["pc"]}>
-            {users.profile.image && (
+          <div className={css["pc"]} style={{ minWidth: "11rem" }}>
+            {users.profile.image ? (
               <Image
                 loader={myLoader}
                 src={users.profile.image}
+                alt="profile"
+                width={56}
+                height={56}
+                style={{ cursor: "pointer", borderRadius: "10px" }}
+              />
+            ) : (
+              <Image
+                src={defaultPict}
                 alt="profile"
                 width={56}
                 height={56}

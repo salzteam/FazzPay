@@ -54,9 +54,41 @@
   color: #6a4029;
 }
 
+.otp-input input[type=number] {
+  -webkit-text-security: disc;
+}
+
+.otp-input input[type="number"]::-webkit-outer-spin-button,
+.otp-input input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.otp-input input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 .button:active {
   background-color: #6a4029;
   color: #ffffff;
+}
+
+.otp-input input {
+  -moz-appearance: none !important;
+  appearance: none !important;
+  -webkit-appearance: none;
+  width: 72px !important;
+  gap: -5rem !important;
+  height: 84px !important;
+  margin: 3px 8px !important;
+  border-radius: 10px !important;
+  text-align: center;
+  padding-left: 2px !important;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  border: 1px solid var(--primary) !important;
+  -webkit-border-radius: 10px !important;
 }
 
 .main-container {
@@ -79,22 +111,35 @@
 .h2 {
   font-weight: 700;
   padding-bottom: 15px;
-  font-size: 1.5rem;
+  font-size: 18px;
+  color: #3A3D42;
 }
 
 .description {
-  color: #7a7886;
+  width: 70%;
+  font-weight: 400;
+  font-size: 16px;
+  color: #3A3D4299;
 }
 
 .form-container {
   text-align: center;
   /* padding-bottom: 15rem; */
-  padding: 1rem 7rem 5rem 7rem;
+  /* padding: 1rem 7rem 5rem 7rem; */
+}
+
+.not-accept button {
+  background-color: var(--dark03) !important;
+  cursor: default !important
+}
+
+.not-accept button:hover {
+  opacity: 1 !important;
 }
 
 .form {
   width: 100%;
-  padding-top: 5rem;
+  padding-top: 3rem;
   display: flex;
   flex-direction: column;
   grid-gap: 2rem;
@@ -124,11 +169,14 @@
 }
 
 .form button {
-  margin-top: 1rem;
-  width: 100%;
+  /* margin-top: 1rem; */
+  width: 170px;
+  margin-top: 1.5rem;
+  margin-bottom: .5rem;
   height: 3rem;
   border: none;
   color: white;
+  box-shadow: 0px 6px 75px 0px #6457570D;
   background-color: #6379f4;
   font-weight: 700;
   border-radius: 0.75rem;
@@ -154,12 +202,15 @@
     flex-direction: column;
     padding: 1rem;
   }
+
   .pin-container {
     padding: 0;
   }
+
   .form-container {
     padding: 0px;
   }
+
   .title {
     text-align: center;
   }

@@ -45,7 +45,7 @@
   box-shadow: 0 4px 20px #0000000d;
   border-radius: 10px;
   display: flex;
-  padding: 0.5rem;
+  padding: 1rem;
   grid-gap: 1rem;
   cursor: pointer;
 }
@@ -189,8 +189,9 @@ button.confirm {
 }
 
 .info-value {
-  font-size: 1.25rem;
-  font-weight: 700;
+  font-size: 22px;
+  font-weight: 600;
+  color: #514F5B;
 }
 
 .details {
@@ -241,8 +242,6 @@ button.confirm {
 }
 
 .status {
-  width: 3rem;
-  height: 3rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -253,23 +252,65 @@ button.confirm {
   line-height: 2rem;
 }
 
-.status.success {
-  background-color: green;
+.success {
+  margin-top: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 35px;
+  color: white;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  background-color: #1EC15F !important;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
 }
 
-.status.failed {
-  background-color: red;
+.failed {
+  margin-top: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 35px;
+  color: white;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  background-color: var(--red) !important;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
 }
 
 .status-text {
+  padding-top: 1rem;
   font-weight: 700;
+  color: #4D4B57;
+  font-size: 22px;
 }
 
 .info {
+  margin-top: 2rem;
   width: 100%;
   display: flex;
   flex-direction: column;
   grid-gap: 1rem;
+}
+
+.info-label {
+  color: #7A7886;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.title {
+  color: #514F5B;
+  font-weight: 700;
+  font-size: 18px;
 }
 
 .receiver {

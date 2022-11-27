@@ -87,7 +87,7 @@ function Home() {
                     <div
                       className={css["card"]}
                       onClick={() => {
-                        router.push(`/ammount/${data.id}`);
+                        router.push(`transfer/ammount/${data.id}`);
                       }}
                     >
                       <div className={css["image-name"]}>

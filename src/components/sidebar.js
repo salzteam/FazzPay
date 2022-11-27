@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
+import { deleteCookie } from "cookies-next";
 import React, { useState, useEffect } from "react";
 import Styles from "styles/Sidebar.module.css";
 import authAction from "src/redux/action/Auth";
@@ -78,6 +79,8 @@ function Sidebar() {
   }, [auth]);
 
   const logoutHandler = () => {
+    deleteCookie("token");
+    deleteCookie("id");
     dispatch(authAction.logoutThunk(auth.userData.token));
   };
 

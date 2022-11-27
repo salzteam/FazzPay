@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { getCookie } from "cookies-next";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import Header from "components/Header";
@@ -12,9 +13,7 @@ import transactionAction from "src/redux/action/Transaction";
 import Recive from "components/ReciveHistory";
 import Paid from "components/PaidHistory";
 
-function Home() {
-  const [data, setData] = useState();
-
+function Home({ data, token }) {
   const router = useRouter();
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
@@ -22,7 +21,7 @@ function Home() {
   const transaction = useSelector((state) => state.transaction);
 
   const getData = () => {
-    dispatch(authAction.profileidThunk(auth.userData.token, auth.userData.id));
+    dispatch(authAction.profileidThunk(data));
     dispatch(authAction.getDashboards(auth.userData.token, auth.userData.id));
     dispatch(
       transactionAction.HistoryNotifThunk(
@@ -33,7 +32,7 @@ function Home() {
   };
 
   useEffect(() => {
-    if (!auth.userData.token) router.push("/login");
+    if (!auth.userData.token) router.prefetch("/login");
     getData();
   }, []);
 
@@ -75,7 +74,12 @@ function Home() {
                   </p>
                   {/* <p className={css.phone}>+62 813-9387-7946</p> */}
                 </div>
-                <div className={`${css["top-btn"]} ${css.btnHide}`}>
+                <div
+                  className={`${css["top-btn"]} ${css.btnHide}`}
+                  onClick={() => {
+                    router.push("/transfer");
+                  }}
+                >
                   <div className={css.btn}>
                     <i className="fa-sharp fa-solid fa-arrow-up"></i>
                     <p>Transfer</p>
@@ -87,7 +91,12 @@ function Home() {
                 </div>
               </div>
               <div className={`${css["top-btn"]} ${css.hide}`}>
-                <div className={css.btn}>
+                <div
+                  className={css.btn}
+                  onClick={() => {
+                    router.push("/transfer");
+                  }}
+                >
                   <i className="fa-sharp fa-solid fa-arrow-up"></i>
                   <p>Transfer</p>
                 </div>
@@ -226,5 +235,30 @@ function Home() {
     </>
   );
 }
+
+export const getServerSideProps = async ({ req, res }) => {
+  const token = getCookie("token", { req, res });
+  const id = getCookie("id", { req, res });
+  try {
+    const baseUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/profile/${id}`;
+    const result = await fetch(baseUrl, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await result.json();
+    return {
+      props: {
+        data,
+      },
+    };
+  } catch (err) {
+    return {
+      props: {
+        data: "null",
+      },
+    };
+  }
+};
 
 export default Home;

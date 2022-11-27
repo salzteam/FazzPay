@@ -125,7 +125,10 @@ function Home() {
             </div>
           </div>
           {isData ? (
-            <div>
+            <div
+              style={{ overflow: "auto", maxHeight: "47vh" }}
+              className={css["containter-history"]}
+            >
               {transaction.history &&
                 transaction.history.map((data, index) => {
                   if (data.type !== "send") {
