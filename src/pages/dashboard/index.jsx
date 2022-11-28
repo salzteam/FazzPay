@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getCookie } from "cookies-next";
+import { getCookie, deleteCookie } from "cookies-next";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import Header from "components/Header";
@@ -252,6 +252,8 @@ function Home({ data }) {
 export const getServerSideProps = async ({ req, res }) => {
   const token = getCookie("token", { req, res });
   const id = getCookie("id", { req, res });
+  const pin = getCookie("pin", { req, res });
+  if (pin) deleteCookie("pin", { req, res });
   try {
     if (!token) throw "NOT ACCESS TOKEN";
     const baseUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/profile/${id}`;

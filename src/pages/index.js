@@ -3,9 +3,9 @@ import Image from "next/image";
 import styles from "src/styles/LandingPage.module.css";
 import Header from "components/Header";
 import Button from "components/Button";
-
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-
+import { getCookie } from "cookies-next";
 import phone from "src/assets/phone.svg";
 import phone2 from "src/assets/phone2.svg";
 import playstore from "src/assets/playStore.svg";
@@ -23,8 +23,13 @@ import profile from "src/assets/profile.svg";
 import arrow_left from "src/assets/arrow-left.svg";
 import arrow_right from "src/assets/arrow-right.svg";
 
-export default function Home() {
+export default function Home({ req, res }) {
   const router = useRouter();
+  const token = getCookie("token", { req, res });
+
+  useEffect(() => {
+    if (token) router.push("/dashboard");
+  }, [token, router]);
 
   const handleLogin = () => {
     router.push("/login");

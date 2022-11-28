@@ -1,4 +1,5 @@
 import { ActionType } from "redux-promise-middleware";
+import { setCookie } from "cookies-next";
 import {
   login,
   logout,
@@ -76,8 +77,12 @@ const loginThunk = (body, cb) => {
       dispatch(loginPending());
       const result = await login(body);
       dispatch(loginFulfilled(result.data));
+      console.log(result);
+      setCookie("token", result.data.data.token);
+      setCookie("id", result.data.data.id);
       if (typeof cb === "function") cb();
     } catch (error) {
+      console.log(error);
       dispatch(loginRejected(error));
     }
   };

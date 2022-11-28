@@ -6,11 +6,10 @@ import dynamic from "next/dynamic";
 import userAction from "src/redux/action/User";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-import { getCookie } from "cookies-next";
 
 const ReactCodeInput = dynamic(import("react-code-input"));
 
-export default function CreatePin({ data }) {
+export default function CreatePin() {
   const [emptypin, setEmptyPin] = useState(true);
   const [pin, setPin] = useState(null);
   const [inputpin, setInputin] = useState(true);
@@ -20,8 +19,6 @@ export default function CreatePin({ data }) {
   const router = useRouter();
   const user = useSelector((state) => state.user);
   const auth = useSelector((state) => state.auth);
-
-  if (data === "NOT ACCESS TOKEN") router.push("/login");
 
   const checkEmptyPin = (pin) => {
     if (!pin || pin.length !== 6) return setEmptyPin(true);
@@ -105,22 +102,3 @@ export default function CreatePin({ data }) {
     </>
   );
 }
-
-export const getServerSideProps = async ({ req, res }) => {
-  const token = getCookie("token", { req, res });
-  try {
-    if (!token) throw "NOT ACCESS TOKEN";
-    const data = null;
-    return {
-      props: {
-        data,
-      },
-    };
-  } catch (err) {
-    return {
-      props: {
-        data: err,
-      },
-    };
-  }
-};

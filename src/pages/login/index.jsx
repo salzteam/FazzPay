@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function Login({ data, req, res }) {
+export default function Login({ data }) {
   const dispatch = useDispatch();
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
@@ -39,9 +39,9 @@ export default function Login({ data, req, res }) {
   };
 
   const goRoute = () => {
-    setCookie("token", auth.userData.token);
-    setCookie("id", auth.userData.id);
-    const token = getCookie("token", { req, res });
+    // setCookie("token", auth.userData.token);
+    // setCookie("id", auth.userData.id);
+    const token = getCookie("token");
     if (!auth.userData.pin) router.push("/createpin");
     if (token) router.push("/dashboard");
   };
@@ -58,7 +58,7 @@ export default function Login({ data, req, res }) {
       (auth.isError && auth.error === "Wrong password")
     )
       setError(true);
-  }, [auth, req, res, router]);
+  }, [auth, router]);
 
   return (
     <>
