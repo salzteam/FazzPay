@@ -1,14 +1,14 @@
 import React from "react";
+import { useRouter } from "next/router";
 import Header from "components/Navbar";
 import Sidebar from "components/Sidebar";
 import Footer from "components/Footer";
 import css from "styles/Profile.module.css";
 import Image from "next/image";
-import { useRouter } from "next/router";
 
 import sample from "../../assets/avatar.webp";
 
-function index() {
+function Index() {
   const router = useRouter();
   return (
     <>
@@ -91,4 +91,4 @@ function index() {
   );
 }
 
-export default index;
+export default Index;

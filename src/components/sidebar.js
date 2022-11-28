@@ -6,7 +6,7 @@ import Styles from "styles/Sidebar.module.css";
 import authAction from "src/redux/action/Auth";
 import axios from "axios";
 
-function Sidebar() {
+function Sidebar({ showModals }) {
   const [selectDashboard, setDashboard] = useState(false);
   const [selectTransfer, setTransfer] = useState(false);
   const [selectTopUp, setTopUp] = useState(false);
@@ -22,6 +22,17 @@ function Sidebar() {
   const [isLoading, setisLoading] = useState(false);
   const [showTopUp, setShowTopUp] = useState(false);
   const [errMsg, setErrMsg] = useState();
+
+  useEffect(() => {
+    if (showModals) {
+      setDashboard(false);
+      setTransfer(false);
+      setTopUp(true);
+      setProfile(false);
+      setShowTopUp(true);
+      setTopUp(true);
+    }
+  }, [showModals]);
 
   const submitHandler = (e) => {
     setErrMsg();

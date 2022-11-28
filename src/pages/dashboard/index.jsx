@@ -16,6 +16,8 @@ import Recive from "components/ReciveHistory";
 import Paid from "components/PaidHistory";
 
 function Home({ data, token }) {
+  const [topUp, setTopup] = useState(false);
+
   const router = useRouter();
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
@@ -33,6 +35,13 @@ function Home({ data, token }) {
         auth.userData.token
       )
     );
+  };
+
+  const topupHandler = () => {
+    setTopup(true);
+    setTimeout(() => {
+      setTopup(false);
+    }, 1000);
   };
 
   useEffect(() => {
@@ -63,7 +72,7 @@ function Home({ data, token }) {
       <Navbar>
         <div className={css.container}>
           <div className={`col-lg-3 ${css.onMobile}`}>
-            <Sidebar />
+            <Sidebar showModals={topUp} />
           </div>
           <div className="col-lg-9">
             <aside className={css.side}>
@@ -78,17 +87,17 @@ function Home({ data, token }) {
                   </p>
                   {/* <p className={css.phone}>+62 813-9387-7946</p> */}
                 </div>
-                <div
-                  className={`${css["top-btn"]} ${css.btnHide}`}
-                  onClick={() => {
-                    router.push("/transfer");
-                  }}
-                >
-                  <div className={css.btn}>
+                <div className={`${css["top-btn"]} ${css.btnHide}`}>
+                  <div
+                    className={css.btn}
+                    onClick={() => {
+                      router.push("/transfer");
+                    }}
+                  >
                     <i className="fa-sharp fa-solid fa-arrow-up"></i>
                     <p>Transfer</p>
                   </div>
-                  <div className={css.btn}>
+                  <div className={css.btn} onClick={topupHandler}>
                     <i className="fa-solid fa-plus"></i>
                     <p>Top Up</p>
                   </div>
