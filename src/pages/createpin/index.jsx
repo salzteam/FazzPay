@@ -45,7 +45,7 @@ export default function CreatePin() {
   };
 
   useEffect(() => {
-    if (auth.userData.pin !== null) return router.push("/dashboard");
+    if (auth.userData.pin !== null) router.push("/dashboard");
     if (user.isLoading) setEmptyPin(true);
     // if (user.isFulfilled) {
     //   setInputin(false);
