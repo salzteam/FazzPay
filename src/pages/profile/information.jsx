@@ -1,10 +1,31 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { getCookie } from "cookies-next";
+import { useSelector, useDispatch } from "react-redux";
+import { useRouter } from "next/router";
 import Header from "components/Navbar";
 import Footer from "components/Footer";
 import Sidebar from "components/Sidebar";
 import css from "styles/ProfileInfo.module.css";
 
-function personalInfo() {
+import authAction from "src/redux/action/User";
+
+function PersonalInfo({ data }) {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const [isLoading, setLoading] = useState(false);
+  const auth = useSelector((state) => state.auth);
+  const users = useSelector((state) => state.user);
+
+  if (data === "NOT ACCESS TOKEN") router.push("/login");
+
+  const numberPhone = (number) => {
+    let phone = String(number).trim();
+    if (phone.startsWith("0")) {
+      phone = "+62 " + phone.slice(1);
+      return phone;
+    }
+  };
+
   return (
     <>
       <Header />
@@ -31,7 +52,7 @@ function personalInfo() {
                     <label htmlFor="">First Name</label>
                     <input
                       type="text"
-                      value="Kolak"
+                      value={users.profile.firstName}
                       placeholder="Input Here..."
                     />
                   </div>
@@ -39,24 +60,20 @@ function personalInfo() {
                     <label htmlFor="">Last Name</label>
                     <input
                       type="text"
-                      value="Ibu"
+                      value={users.profile.lastName}
                       placeholder="Input Here..."
                     />
                   </div>
                   <div className={css["input-bar"]}>
                     <label htmlFor="">Verified E-mail</label>
-                    <input
-                      type="text"
-                      value="kolakibu@mail.com"
-                      placeholder="Input Here..."
-                    />
+                    <p>{users.profile.email}</p>
                   </div>
                   <div className={`${css["input-bar"]} ${css["input-phone"]}`}>
                     <div className={css["left"]}>
                       <label htmlFor="">Phone Number</label>
                       <input
                         type="text"
-                        // value="+62 813-9387-7946"
+                        value={numberPhone(users.profile.noTelp)}
                         placeholder="Input Here..."
                       />
                     </div>
@@ -75,4 +92,23 @@ function personalInfo() {
   );
 }
 
-export default personalInfo;
+export const getServerSideProps = async ({ req, res }) => {
+  const token = getCookie("token", { req, res });
+  try {
+    if (!token) throw "NOT ACCESS TOKEN";
+    const data = null;
+    return {
+      props: {
+        data,
+      },
+    };
+  } catch (err) {
+    return {
+      props: {
+        data: err,
+      },
+    };
+  }
+};
+
+export default PersonalInfo;

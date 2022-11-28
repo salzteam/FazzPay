@@ -17,13 +17,14 @@ const myLoader = ({ src, width, quality }) => {
   return `${process.env.NEXT_PUBLIC_IMAGE}${src}?w=${width}&q=${quality || 75}`;
 };
 
-function Index() {
+function Index({ data }) {
   const router = useRouter();
   const dispatch = useDispatch();
   const [isLoading, setLoading] = useState(false);
   const auth = useSelector((state) => state.auth);
   const users = useSelector((state) => state.user);
-  const transaction = useSelector((state) => state.transaction);
+
+  if (data === "NOT ACCESS TOKEN") router.push("/login");
 
   const changeImageHandler = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -186,5 +187,24 @@ function Index() {
     </>
   );
 }
+
+export const getServerSideProps = async ({ req, res }) => {
+  const token = getCookie("token", { req, res });
+  try {
+    if (!token) throw "NOT ACCESS TOKEN";
+    const data = null;
+    return {
+      props: {
+        data,
+      },
+    };
+  } catch (err) {
+    return {
+      props: {
+        data: err,
+      },
+    };
+  }
+};
 
 export default Index;

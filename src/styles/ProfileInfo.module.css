@@ -62,7 +62,8 @@
     color: #7A7886;
 }
 
-.profile-info form .input-bar input {
+.profile-info form .input-bar input,
+.profile-info form .input-bar p {
     border: none;
     outline: none;
     background: transparent;

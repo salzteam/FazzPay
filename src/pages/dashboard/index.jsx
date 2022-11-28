@@ -10,12 +10,10 @@ import css from "styles/Home.module.css";
 import authAction from "src/redux/action/User";
 import transactionAction from "src/redux/action/Transaction";
 
-import defaultPict from "src/assets/default-profile-pic.webp";
-
 import Recive from "components/ReciveHistory";
 import Paid from "components/PaidHistory";
 
-function Home({ data, token }) {
+function Home({ data }) {
   const [topUp, setTopup] = useState(false);
 
   const router = useRouter();
@@ -47,7 +45,7 @@ function Home({ data, token }) {
   useEffect(() => {
     // if (!auth.userData.token) router.prefetch("/login");
     getData();
-  });
+  }, []);
 
   const costing = (price) => {
     return (

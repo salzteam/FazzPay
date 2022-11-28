@@ -31,17 +31,19 @@ export default function Login({ data, req, res }) {
   const changeHandler = (e) =>
     setBody({ ...body, [e.target.name]: e.target.value });
 
-  const loginSuccess = () => {
-    // if (!auth.pin)
-    //   return toast.success(`Login Success! Please Create Your Pin`);
-    return toast.success(`Login Success! welcome :)`);
-  };
-
-  const loginHandler = async (e) => {
+  const loginHandler = (e) => {
     e.preventDefault();
     setError(false);
     setnotactive(false);
-    await dispatch(authAction.loginThunk(body, loginSuccess));
+    dispatch(authAction.loginThunk(body, goRoute));
+  };
+
+  const goRoute = () => {
+    setCookie("token", auth.userData.token);
+    setCookie("id", auth.userData.id);
+    const token = getCookie("token", { req, res });
+    if (!auth.userData.pin) router.push("/createpin");
+    if (token) router.push("/dashboard");
   };
 
   useEffect(() => {
@@ -56,14 +58,7 @@ export default function Login({ data, req, res }) {
       (auth.isError && auth.error === "Wrong password")
     )
       setError(true);
-    if (auth.isFulfilled) {
-      setCookie("token", auth.userData.token);
-      setCookie("id", auth.userData.id);
-      const token = getCookie("token", { req, res });
-      if (!auth.userData.pin) router.push("/createpin");
-      if (token) router.push("/dashboard");
-    }
-  }, [auth]);
+  }, [auth, req, res, router]);
 
   return (
     <>

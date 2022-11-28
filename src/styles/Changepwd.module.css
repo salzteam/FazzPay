@@ -97,6 +97,16 @@
   border-radius: 0.75rem;
 }
 
+.not-allowed button {
+  cursor: default !important;
+  background-color: var(--gray) !important;
+}
+
+.not-allowed button:hover {
+  background-color: var(--gray) !important;
+  opacity: 1 !important;
+}
+
 .form-password button:hover {
   background-color: #6379f4;
   border-color: #6379f4;
@@ -119,12 +129,17 @@
   color: #3a3d424d;
 }
 
+.filled {
+  color: var(--primary) !important;
+}
+
 .form-password i.toggle-password {
   position: absolute;
   top: 50%;
-  right: 0;
+  right: 5px;
   transform: translateY(-50%);
   cursor: pointer;
+  color: grey;
 }
 
 .form-password i.toggle-password:hover {
@@ -133,13 +148,21 @@
 
 .password-notif {
   color: red;
+  text-align: center;
 }
 
-.password-notif.hide {
+.password-notif-success {
+  color: var(--green);
+  text-align: center;
+}
+
+.password-notif.hide,
+.password-notif-success.hide {
   display: initial;
 }
 
-.password-notif.show {
+.password-notif.show,
+.password-notif-success.show {
   display: none;
 }
 

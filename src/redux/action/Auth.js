@@ -70,12 +70,13 @@ const resetFulfilled = (data) => ({
   payload: { data },
 });
 
-const loginThunk = (body) => {
+const loginThunk = (body, cb) => {
   return async (dispatch) => {
     try {
       dispatch(loginPending());
       const result = await login(body);
       dispatch(loginFulfilled(result.data));
+      if (typeof cb === "function") cb();
     } catch (error) {
       dispatch(loginRejected(error));
     }
