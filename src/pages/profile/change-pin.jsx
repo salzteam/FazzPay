@@ -1,14 +1,14 @@
 import dynamic from "next/dynamic";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import Header from "src/Components/Navbar";
-import Sidebar from "src/Components/Sidebar";
-import Footer from "src/Components/Footer";
+import Header from "src/pages/Components/Navbar";
+import Sidebar from "src/pages/Components/Sidebar";
+import Footer from "src/pages/Components/Footer";
 const ReactCodeInput = dynamic(import("react-code-input"));
-import Head from "src/Components/Header";
+import Head from "src/pages/Components/Header";
 import { useRouter } from "next/router";
 import { getCookie } from "cookies-next";
-import Loader from "src/Components/Loader";
+import Loader from "src/pages/Components/Loader";
 
 import styles from "styles/changepin.module.css";
 import axios from "axios";

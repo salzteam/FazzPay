@@ -2,8 +2,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import Layout from "src/Components/LayoutAuth";
-import PageTitle from "src/Components/Header";
+import Layout from "src/pages/Components/LayoutAuth";
+import PageTitle from "src/pages/Components/Header";
 import styles from "styles/ResetPassword.module.css";
 import authAction from "src/redux/action/Auth";
 

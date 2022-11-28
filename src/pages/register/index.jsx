@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import Layout from "src/Components/LayoutAuth";
-import PageTitle from "src/Components/Header";
+import Layout from "src/pages/Components/LayoutAuth";
+import PageTitle from "src/pages/Components/Header";
 import styles from "styles/Register.module.css";
 import authAction from "src/redux/action/Auth";
 import { useRouter } from "next/router";
