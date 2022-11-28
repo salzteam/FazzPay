@@ -194,7 +194,6 @@ export default function Home() {
           </div>
         </section>
       </main>
-
       <footer className={styles.footer}>
         <section className={styles["title-footer"]}>
           <p className={styles.textTitle}>FazzPay</p>

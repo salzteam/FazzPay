@@ -7,6 +7,7 @@ import Sidebar from "components/Sidebar";
 import Footer from "components/Footer";
 import css from "styles/Profile.module.css";
 import Image from "next/image";
+import Head from "components/Header";
 
 import sample from "../../assets/avatar.webp";
 import axios from "axios";
@@ -21,6 +22,7 @@ function Index({ data }) {
   const router = useRouter();
   const dispatch = useDispatch();
   const [isLoading, setLoading] = useState(false);
+  const [toLogout, setLogout] = useState(false);
   const auth = useSelector((state) => state.auth);
   const users = useSelector((state) => state.user);
 
@@ -58,6 +60,14 @@ function Index({ data }) {
     }
   };
 
+  const logoutHandler = (e) => {
+    e.preventDefault();
+    setLogout(true);
+    setTimeout(() => {
+      setLogout(false);
+    }, 1000);
+  };
+
   const numberPhone = (number) => {
     let phone = String(number).trim();
     if (phone.startsWith("0")) {
@@ -68,122 +78,124 @@ function Index({ data }) {
 
   return (
     <>
-      <Header title={"HOME"} />
-      <main className={css["container"]}>
-        <div className="container">
-          <div className={`row ${css["main-content"]}`}>
-            <div className="col-lg-3 col-md-4">
-              <Sidebar />
-            </div>
-            {isLoading && (
-              <div
-                style={{
-                  position: "fixed",
-                  top: "50%",
-                  left: "50%",
-                  width: "100vh",
-                }}
-              >
-                <Loader />
+      <Head title={"Profile"}>
+        <Header title={"HOME"} />
+        <main className={css["container"]}>
+          <div className="container">
+            <div className={`row ${css["main-content"]}`}>
+              <div className="col-lg-3 col-md-4">
+                <Sidebar logoutModal={toLogout} />
               </div>
-            )}
-            <div className="col-lg-9 col-md-8 col-12">
-              <div className={css["profile-content"]}>
-                <div className={css["profile-detail"]}>
-                  <div className={css["top-content"]}>
-                    <div className={css["photo"]}>
-                      {users.profile.image ? (
-                        <Image
-                          loader={myLoader}
-                          alt="profile"
-                          src={users.profile.image}
-                          placeholder="blur"
-                          blurDataURL={"./assets/avatar.jpg"}
-                          onError={() => "./assets/avatar.jpg"}
-                          width={80}
-                          height={80}
-                          style={{ borderRadius: "10px" }}
-                          objectFit="cover"
-                        />
-                      ) : (
-                        <Image
-                          alt="profile"
-                          src={sample}
-                          placeholder="blur"
-                          blurDataURL={"./assets/avatar.jpg"}
-                          onError={() => "./assets/avatar.jpg"}
-                          width={80}
-                          height={80}
-                          style={{ borderRadius: "10px" }}
-                          objectFit="cover"
-                        />
-                      )}
-                    </div>
-                    <div className={css["name-phone"]}>
-                      <label htmlFor="images">
-                        <div className={css["edit"]}>
-                          <i className="fa-solid fa-pen"></i>
-                          <p>Edit</p>
+              {isLoading && (
+                <div
+                  style={{
+                    position: "fixed",
+                    top: "50%",
+                    left: "50%",
+                    width: "100vh",
+                  }}
+                >
+                  <Loader />
+                </div>
+              )}
+              <div className="col-lg-9 col-md-8 col-12">
+                <div className={css["profile-content"]}>
+                  <div className={css["profile-detail"]}>
+                    <div className={css["top-content"]}>
+                      <div className={css["photo"]}>
+                        {users.profile.image ? (
+                          <Image
+                            loader={myLoader}
+                            alt="profile"
+                            src={users.profile.image}
+                            placeholder="blur"
+                            blurDataURL={"./assets/avatar.jpg"}
+                            onError={() => "./assets/avatar.jpg"}
+                            width={80}
+                            height={80}
+                            style={{ borderRadius: "10px" }}
+                            objectFit="cover"
+                          />
+                        ) : (
+                          <Image
+                            alt="profile"
+                            src={sample}
+                            placeholder="blur"
+                            blurDataURL={"./assets/avatar.jpg"}
+                            onError={() => "./assets/avatar.jpg"}
+                            width={80}
+                            height={80}
+                            style={{ borderRadius: "10px" }}
+                            objectFit="cover"
+                          />
+                        )}
+                      </div>
+                      <div className={css["name-phone"]}>
+                        <label htmlFor="images">
+                          <div className={css["edit"]}>
+                            <i className="fa-solid fa-pen"></i>
+                            <p>Edit</p>
+                          </div>
+                        </label>
+                        <input
+                          className={"d-none"}
+                          type="file"
+                          id={"images"}
+                          onChange={changeImageHandler}
+                        ></input>
+                        <div className={css["name"]}>
+                          {users.profile.firstName && (
+                            <p>{`${users.profile.firstName} ${users.profile.lastName}`}</p>
+                          )}
                         </div>
-                      </label>
-                      <input
-                        className={"d-none"}
-                        type="file"
-                        id={"images"}
-                        onChange={changeImageHandler}
-                      ></input>
-                      <div className={css["name"]}>
-                        {users.profile.firstName && (
-                          <p>{`${users.profile.firstName} ${users.profile.lastName}`}</p>
-                        )}
-                      </div>
-                      <div className={css["phone"]}>
-                        {users.profile.noTelp && (
-                          <p>{numberPhone(users.profile.noTelp)}</p>
-                        )}
+                        <div className={css["phone"]}>
+                          {users.profile.noTelp && (
+                            <p>{numberPhone(users.profile.noTelp)}</p>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className={css["profile-btn"]}>
-                    <button
-                      onClick={() => {
-                        router.push("profile/information");
-                      }}
-                    >
-                      <p>Personal Information</p>
-                      <span>
-                        <i className="fa-solid fa-arrow-right"></i>
-                      </span>
-                    </button>
-                    <button
-                      onClick={() => {
-                        router.push("profile/change-password");
-                      }}
-                    >
-                      <p>Change Password</p>
-                      <span>
-                        <i className="fa-solid fa-arrow-right"></i>
-                      </span>
-                    </button>
-                    <button
-                      onClick={() => {
-                        router.push("profile/change-pin");
-                      }}
-                    >
-                      <p>Change PIN</p>
-                      <span>
-                        <i className="fa-solid fa-arrow-right"></i>
-                      </span>
-                    </button>
-                    <button>Logout </button>
+                    <div className={css["profile-btn"]}>
+                      <button
+                        onClick={() => {
+                          router.push("profile/information");
+                        }}
+                      >
+                        <p>Personal Information</p>
+                        <span>
+                          <i className="fa-solid fa-arrow-right"></i>
+                        </span>
+                      </button>
+                      <button
+                        onClick={() => {
+                          router.push("profile/change-password");
+                        }}
+                      >
+                        <p>Change Password</p>
+                        <span>
+                          <i className="fa-solid fa-arrow-right"></i>
+                        </span>
+                      </button>
+                      <button
+                        onClick={() => {
+                          router.push("profile/change-pin");
+                        }}
+                      >
+                        <p>Change PIN</p>
+                        <span>
+                          <i className="fa-solid fa-arrow-right"></i>
+                        </span>
+                      </button>
+                      <button onClick={logoutHandler}>Logout </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </main>
-      <Footer />
+        </main>
+        <Footer />
+      </Head>
     </>
   );
 }

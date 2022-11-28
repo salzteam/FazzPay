@@ -91,6 +91,51 @@
   position: relative;
 }
 
+.code-wrapper {
+  text-align: center;
+  /* gap: 1rem !important; */
+}
+
+.code-wrapper input[type="number"]::-webkit-outer-spin-button,
+.code-wrapper input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.code-wrapper input[type="number"] {
+  -moz-appearance: textfield;
+  -webkit-text-security: disc;
+}
+
+.code-wrapper input {
+  appearance: none !important;
+  -webkit-appearance: none;
+  width: 69px !important;
+  gap: 1rem !important;
+  height: 82px !important;
+  margin: 0px 10px !important;
+  border-radius: 10px !important;
+  text-align: center;
+  padding-left: 2px !important;
+  user-select: none;
+  border: 1px solid var(--primary) !important;
+  -webkit-border-radius: 10px !important;
+  -moz-border-radius: 10px !important;
+  -ms-border-radius: 10px !important;
+  -o-border-radius: 10px !important;
+}
+
+.not-allowed button {
+  background-color: #DADADA !important;
+  color: #88888F !important;
+  cursor: default !important;
+}
+
+.not-allowed input {
+  border-color: #DADADA !important;
+  color: #88888F !important;
+}
+
 @media (max-width: 576px) {
   .main-container {
     flex-direction: column;

@@ -5,6 +5,7 @@
 
 .container .main-content {
     padding: 2rem;
+    height: 67.1vh;
 }
 
 .container .main-content .profile-info {
@@ -26,7 +27,7 @@
     font-size: 1rem;
     font-weight: 400;
     color: #7A7886;
-    max-width: 50%;
+    max-width: 40%;
     padding: 1rem 0;
 }
 
@@ -72,8 +73,13 @@
     color: #514F5B;
 }
 
+.not-allowed {
+    color: #514F5B !important;
+    cursor: default !important;
+}
+
 .profile-info form .input-bar input::-webkit-input-placeholder {
-    color: #7A7886;
+    color: #514F5B;
 }
 
 @media screen and (max-width: 768px) {
