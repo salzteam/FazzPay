@@ -48,7 +48,7 @@ function Home({ data }) {
       if (search.length === 0) router.push(`/transfer`);
       dispatch(userAction.updateSearch(datas));
     }
-  }, [search, dispatch, users.allsearch]);
+  }, []);
 
   const numberPhone = (number) => {
     let phone = String(number).trim();
