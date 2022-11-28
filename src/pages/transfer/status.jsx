@@ -39,7 +39,7 @@ function Status({ data }) {
     if (!data && transaction.statusTransfer === "Success transfer")
       return setSuccess(true);
     setfailed(true);
-  }, [transaction, router]);
+  }, [transaction, router, data]);
 
   const costing = (price) => {
     return (

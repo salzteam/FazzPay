@@ -46,7 +46,7 @@ export default function Register() {
     if (auth.isLoading) setEmptyForm(true);
     if (!auth.isLoading) setEmptyForm(false);
     if (auth.registerFulfilled) router.push("/login");
-  }, [auth]);
+  }, [auth, router]);
 
   useEffect(() => {
     checkEmptyForm(body);

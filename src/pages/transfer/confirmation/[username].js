@@ -43,7 +43,7 @@ function Home({ data }) {
     if (!data) {
       if (!transfer) router.push("/transfer");
     }
-  }, []);
+  }, [data, router, transfer]);
 
   const numberPhone = (number) => {
     let phone = String(number).trim();

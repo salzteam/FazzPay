@@ -39,7 +39,7 @@ function Home() {
         auth.userData.token
       )
     );
-  }, [query]);
+  }, [query, auth.userData.token, dispatch]);
 
   const filterHandler = (text) => {
     setfilterSelect(text);

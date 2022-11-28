@@ -33,7 +33,7 @@ function Home({ data }) {
       userAction.getUser("page=1&limit=1000&search=", auth.userData.token)
     );
     dispatch(userAction.updateSearch(users.allsearch));
-  }, []);
+  }, [auth.userData.token, dispatch, users.allsearch]);
 
   useEffect(() => {
     if (users.allsearch) {
@@ -48,7 +48,7 @@ function Home({ data }) {
       if (search.length === 0) router.push(`/transfer`);
       dispatch(userAction.updateSearch(datas));
     }
-  }, [search]);
+  }, [search, dispatch, router, users.allsearch]);
 
   const numberPhone = (number) => {
     let phone = String(number).trim();

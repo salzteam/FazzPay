@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Header from "components/Navbar";
-import Sidebar from "src/components/Sidebar";
+import Sidebar from "components/Sidebar";
 import Footer from "src/components/Footer";
 const ReactCodeInput = dynamic(import("react-code-input"));
 import Head from "components/Header";

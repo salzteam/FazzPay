@@ -50,7 +50,7 @@ export default function ResetPassword() {
     if (auth.isLoading) setEmptyForm(true);
     if (!auth.isLoading) setEmptyForm(false);
     if (auth.resetFullfilled) router.push("/login");
-  }, [auth]);
+  }, [auth, router]);
 
   return (
     <>
