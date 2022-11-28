@@ -46,7 +46,7 @@ export default function CreatePin() {
       setInputin(false);
       setgoto(true);
     }
-  }, [user, auth.userData.pin, router]);
+  }, []);
 
   return (
     <>
