@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Image from "next/image";
 import css from "src/styles/Navbar.module.css";
-import Sidebar from "src/pages/Components/Sidebar";
+import Sidebar from "src/Components/Sidebar";
 import defaultPict from "src/assets/default-profile-pic.webp";
 
 const myLoader = ({ src, width, quality }) => {

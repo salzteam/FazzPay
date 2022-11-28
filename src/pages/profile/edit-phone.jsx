@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import { getCookie } from "cookies-next";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-import Header from "src/pages/Components/Navbar";
-import Footer from "src/pages/Components/Footer";
-import Sidebar from "src/pages/Components/Sidebar";
-import Loader from "src/pages/Components/Loader";
+import Header from "src/Components/Navbar";
+import Footer from "src/Components/Footer";
+import Sidebar from "src/Components/Sidebar";
+import Loader from "src/Components/Loader";
 import css from "styles/EditPhone.module.css";
 import authAction from "src/redux/action/User";
 import axios from "axios";
-import Head from "src/pages/Components/Header";
+import Head from "src/Components/Header";
 
 function EditPhone({ data }) {
   const [phoneNumber, setPhoneNumber] = useState("");
