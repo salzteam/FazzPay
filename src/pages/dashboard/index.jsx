@@ -47,7 +47,7 @@ function Home({ data, token }) {
   useEffect(() => {
     // if (!auth.userData.token) router.prefetch("/login");
     getData();
-  }, []);
+  });
 
   const costing = (price) => {
     return (

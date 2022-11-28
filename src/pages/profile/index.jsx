@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { getCookie } from "cookies-next";
+import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import Header from "components/Navbar";
 import Sidebar from "components/Sidebar";
@@ -7,9 +9,62 @@ import css from "styles/Profile.module.css";
 import Image from "next/image";
 
 import sample from "../../assets/avatar.webp";
+import axios from "axios";
+import authAction from "src/redux/action/User";
+import Loader from "components/Loader";
+
+const myLoader = ({ src, width, quality }) => {
+  return `${process.env.NEXT_PUBLIC_IMAGE}${src}?w=${width}&q=${quality || 75}`;
+};
 
 function Index() {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const [isLoading, setLoading] = useState(false);
+  const auth = useSelector((state) => state.auth);
+  const users = useSelector((state) => state.user);
+  const transaction = useSelector((state) => state.transaction);
+
+  const changeImageHandler = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setLoading(true);
+      let image = new FormData();
+      image.append("image", e.target.files[0]);
+      const baseUrl = `https://fazzpay-rose.vercel.app/user/image/${auth.userData.id}`;
+      axios
+        .patch(baseUrl, image, {
+          headers: { Authorization: `Bearer ${auth.userData.token}` },
+        })
+        .then((result) => {
+          const profileUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/profile/${auth.userData.id}`;
+          axios
+            .get(profileUrl, {
+              headers: {
+                Authorization: `Bearer ${auth.userData.token}`,
+              },
+            })
+            .then((data) => {
+              setLoading(false);
+              dispatch(authAction.profileidThunk(data.data));
+            })
+            .catch((err) => {
+              setLoading(false);
+            })
+            .catch((err) => {
+              setLoading(false);
+            });
+        });
+    }
+  };
+
+  const numberPhone = (number) => {
+    let phone = String(number).trim();
+    if (phone.startsWith("0")) {
+      phone = "+62 " + phone.slice(1);
+      return phone;
+    }
+  };
+
   return (
     <>
       <Header title={"HOME"} />
@@ -19,31 +74,72 @@ function Index() {
             <div className="col-lg-3 col-md-4">
               <Sidebar />
             </div>
+            {isLoading && (
+              <div
+                style={{
+                  position: "fixed",
+                  top: "50%",
+                  left: "50%",
+                  width: "100vh",
+                }}
+              >
+                <Loader />
+              </div>
+            )}
             <div className="col-lg-9 col-md-8 col-12">
               <div className={css["profile-content"]}>
                 <div className={css["profile-detail"]}>
                   <div className={css["top-content"]}>
                     <div className={css["photo"]}>
-                      <Image
-                        alt="profile"
-                        src={sample}
-                        placeholder="blur"
-                        blurDataURL={"./assets/avatar.jpg"}
-                        onError={() => "./assets/avatar.jpg"}
-                        layout="fill"
-                        objectFit="cover"
-                      />
+                      {users.profile.image ? (
+                        <Image
+                          loader={myLoader}
+                          alt="profile"
+                          src={users.profile.image}
+                          placeholder="blur"
+                          blurDataURL={"./assets/avatar.jpg"}
+                          onError={() => "./assets/avatar.jpg"}
+                          width={80}
+                          height={80}
+                          style={{ borderRadius: "10px" }}
+                          objectFit="cover"
+                        />
+                      ) : (
+                        <Image
+                          alt="profile"
+                          src={sample}
+                          placeholder="blur"
+                          blurDataURL={"./assets/avatar.jpg"}
+                          onError={() => "./assets/avatar.jpg"}
+                          width={80}
+                          height={80}
+                          style={{ borderRadius: "10px" }}
+                          objectFit="cover"
+                        />
+                      )}
                     </div>
                     <div className={css["name-phone"]}>
-                      <div className={css["edit"]}>
-                        <i className="fa-solid fa-pen"></i>
-                        <p>Edit</p>
-                      </div>
+                      <label htmlFor="images">
+                        <div className={css["edit"]}>
+                          <i className="fa-solid fa-pen"></i>
+                          <p>Edit</p>
+                        </div>
+                      </label>
+                      <input
+                        className={"d-none"}
+                        type="file"
+                        id={"images"}
+                        onChange={changeImageHandler}
+                      ></input>
                       <div className={css["name"]}>
-                        <p>Ngab Toto</p>
+                        {users.profile.firstName && (
+                          <p>{`${users.profile.firstName} ${users.profile.lastName}`}</p>
+                        )}
                       </div>
                       <div className={css["phone"]}>
-                        <p>+62 813-9387-7946</p>
+                        {users.profile.noTelp && (
+                          <p>{numberPhone(users.profile.noTelp)}</p>
+                        )}
                       </div>
                     </div>
                   </div>
