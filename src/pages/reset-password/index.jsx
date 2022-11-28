@@ -1,8 +1,8 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import Layout from "components/LayoutAuth";
-import PageTitle from "components/Header";
+import Layout from "src/Components/LayoutAuth";
+import PageTitle from "src/Components/Header";
 import styles from "styles/Forgot.module.css";
 import authAction from "src/redux/action/Auth";
 

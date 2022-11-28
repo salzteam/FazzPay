@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import { getCookie } from "cookies-next";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-import Header from "components/Navbar";
-import Footer from "components/Footer";
-import Sidebar from "components/Sidebar";
+import Header from "src/Components/Navbar";
+import Footer from "src/Components/Footer";
+import Sidebar from "src/Components/Sidebar";
 import css from "styles/ProfileInfo.module.css";
-import Loader from "components/Loader";
-import Head from "components/Header";
+import Loader from "src/Components/Loader";
+import Head from "src/Components/Header";
 
 import authAction from "src/redux/action/User";
 import axios from "axios";
