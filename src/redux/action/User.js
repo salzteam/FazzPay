@@ -94,12 +94,13 @@ const resetpinMsgFulfilled = (data) => ({
   payload: { data },
 });
 
-const pinThunk = (body, id, token) => {
+const pinThunk = (body, id, token, cb) => {
   return async (dispatch) => {
     try {
       dispatch(pinPending());
       const result = await createPin(body, id, token);
       dispatch(pinFulfilled(result, body));
+      if (typeof cb === "function") cb();
     } catch (error) {
       dispatch(pinRejected(error));
     }

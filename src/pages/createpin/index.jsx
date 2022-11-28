@@ -31,22 +31,27 @@ export default function CreatePin() {
     checkEmptyPin(pin);
   }, [pin]);
 
+  const changeHandlerInput = () => {
+    setInputin(false);
+    setgoto(true);
+  };
+
   const pinHandler = (e) => {
     e.preventDefault();
     const id = auth.userData.id;
     const token = auth.userData.token;
     const sendPin = parseInt(pin);
-    dispatch(userAction.pinThunk(sendPin, id, token));
+    dispatch(userAction.pinThunk(sendPin, id, token, changeHandlerInput));
   };
 
   useEffect(() => {
-    if (auth.userData.pin) router.push("/dashboard");
+    if (auth.userData.pin !== null) return router.push("/dashboard");
     if (user.isLoading) setEmptyPin(true);
-    if (user.isFulfilled) {
-      setInputin(false);
-      setgoto(true);
-    }
-  }, [dispatch]);
+    // if (user.isFulfilled) {
+    //   setInputin(false);
+    //   setgoto(true);
+    // }
+  }, [auth]);
 
   return (
     <>
