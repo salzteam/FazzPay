@@ -3,12 +3,12 @@ import { getCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import css from "styles/Changepwd.module.css";
-import Sidebar from "src/Components/Sidebar";
-import Footer from "src/Components/Footer";
-import Header from "src/Components/Navbar";
-import Loader from "src/Components/Loader";
+import Sidebar from "components/Sidebar";
+import Footer from "components/Footer";
+import Header from "components/Navbar";
+import Loader from "components/Loader";
 import axios from "axios";
-import Head from "src/Components/Header";
+import Head from "components/Header";
 
 function Changepassword({ data }) {
   // const router = useRouter();

@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { getCookie } from "cookies-next";
 import Image from "next/image";
-import Header from "src/Components/Header";
-import Navbar from "src/Components/Navbar";
-import Sidebar from "src/Components/Sidebar";
-import Footer from "src/Components/Footer";
+import Header from "components/Header";
+import Navbar from "components/Navbar";
+import Sidebar from "components/Sidebar";
+import Footer from "components/Footer";
 import css from "styles/Confirmation.module.css";
 import user from "src/assets/1.png";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
-import Modal from "src/Components/ModalConfirm";
+import Modal from "components/ModalConfirm";
 
 import defaultPict from "src/assets/default-profile-pic.webp";
 

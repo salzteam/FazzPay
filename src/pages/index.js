@@ -1,8 +1,8 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "src/styles/LandingPage.module.css";
-import Header from "src/Components/Header";
-import Button from "src/Components/Button";
+import Header from "components/Header";
+import Button from "components/Button";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { getCookie } from "cookies-next";

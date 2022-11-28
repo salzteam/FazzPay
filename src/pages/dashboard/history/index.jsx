@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import Header from "src/Components/Header";
-import Navbar from "src/Components/Navbar";
-import Sidebar from "src/Components/Sidebar";
-import Footer from "src/Components/Footer";
+import Header from "components/Header";
+import Navbar from "components/Navbar";
+import Sidebar from "components/Sidebar";
+import Footer from "components/Footer";
 import css from "styles/History.module.css";
 import user from "src/assets/1.png";
 import user2 from "src/assets/image.png";
@@ -13,8 +13,8 @@ import transactionAction from "src/redux/action/Transaction";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 
-import Recive from "src/Components/ReciveHistory";
-import Paid from "src/Components/PaidHistory";
+import Recive from "components/ReciveHistory";
+import Paid from "components/PaidHistory";
 
 function Home() {
   const [filter, setFilter] = useState(false);

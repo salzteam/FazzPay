@@ -3,10 +3,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import Header from "src/Components/Header";
-import Navbar from "src/Components/Navbar";
-import Sidebar from "src/Components/Sidebar";
-import Footer from "src/Components/Footer";
+import Header from "components/Header";
+import Navbar from "components/Navbar";
+import Sidebar from "components/Sidebar";
+import Footer from "components/Footer";
 import css from "styles/Transfer.module.css";
 import defaultPict from "src/assets/default-profile-pic.webp";
 import icon from "src/assets/search.png";
@@ -48,7 +48,7 @@ function Home({ data }) {
       if (search.length === 0) router.push(`/transfer`);
       dispatch(userAction.updateSearch(datas));
     }
-  }, [search, dispatch, router, users.allsearch]);
+  }, [search, dispatch, users.allsearch]);
 
   const numberPhone = (number) => {
     let phone = String(number).trim();

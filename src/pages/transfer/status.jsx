@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import styles from "styles/status.module.css";
-import Sidebar from "src/Components/Sidebar";
+import Sidebar from "components/Sidebar";
 import profile from "src/assets/profile.png";
 import { getCookie } from "cookies-next";
-import Header from "src/Components/Header";
-import Navbar from "src/Components/Navbar";
-import Footer from "src/Components/Footer";
+import Header from "components/Header";
+import Navbar from "components/Navbar";
+import Footer from "components/Footer";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 

@@ -2,17 +2,17 @@ import React, { useState, useEffect } from "react";
 import { getCookie } from "cookies-next";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-import Header from "src/Components/Navbar";
-import Sidebar from "src/Components/Sidebar";
-import Footer from "src/Components/Footer";
+import Header from "components/Navbar";
+import Sidebar from "components/Sidebar";
+import Footer from "components/Footer";
 import css from "styles/Profile.module.css";
 import Image from "next/image";
-import Head from "src/Components/Header";
+import Head from "components/Header";
 
 import sample from "../../assets/avatar.webp";
 import axios from "axios";
 import authAction from "src/redux/action/User";
-import Loader from "src/Components/Loader";
+import Loader from "components/Loader";
 
 const myLoader = ({ src, width, quality }) => {
   return `${process.env.NEXT_PUBLIC_IMAGE}${src}?w=${width}&q=${quality || 75}`;
