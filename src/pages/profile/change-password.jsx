@@ -3,7 +3,7 @@ import { getCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import css from "styles/Changepwd.module.css";
-import Sidebar from "components/Sidebar";
+import Sidebar from "src/components/Sidebar";
 import Footer from "components/Footer";
 import Header from "components/Navbar";
 import Loader from "components/Loader";

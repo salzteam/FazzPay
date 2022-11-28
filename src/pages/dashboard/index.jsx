@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import Header from "components/Header";
 import Navbar from "components/Navbar";
-import Sidebar from "components/Sidebar";
+import Sidebar from "src/components/Sidebar";
 import Footer from "components/Footer";
 import css from "styles/Home.module.css";
 import authAction from "src/redux/action/User";
