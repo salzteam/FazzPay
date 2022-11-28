@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { getCookie } from "cookies-next";
 import Image from "next/image";
 import Header from "components/Header";
 import Navbar from "components/Navbar";
@@ -16,7 +17,7 @@ const myLoader = ({ src, width, quality }) => {
   return `${process.env.NEXT_PUBLIC_IMAGE}${src}?w=${width}&q=${quality || 75}`;
 };
 
-function Home() {
+function Home({ data }) {
   const [modalOpen, setModalOpen] = useState(false);
 
   const router = useRouter();
@@ -25,6 +26,9 @@ function Home() {
 
   const modalhandler = () => setModalOpen(!modalOpen);
   const transfer = transaction.transfer;
+  const users = useSelector((state) => state.user.profile);
+
+  if (data === "NOT ACCESS TOKEN") router.push("/login");
 
   const costing = (price) => {
     return (
@@ -36,7 +40,9 @@ function Home() {
   };
 
   useEffect(() => {
-    if (!transfer) router.push("/transfer");
+    if (!data) {
+      if (!transfer) router.push("/transfer");
+    }
   }, []);
 
   const numberPhone = (number) => {
@@ -95,14 +101,18 @@ function Home() {
             <div className={css["card-detail"]}>
               <div>
                 <p className={css.details}>Amount</p>
-                {transfer && <p className={css.subdetails}>{transfer.total}</p>}
+                {transfer && (
+                  <p className={css.subdetails}>
+                    {costing(parseInt(transfer.total))}
+                  </p>
+                )}
               </div>
             </div>
             <div className={css["card-detail"]}>
               <div>
                 <p className={css.details}>Balance</p>
                 {transfer && (
-                  <p className={css.subdetails}>{costing(transfer.total)}</p>
+                  <p className={css.subdetails}>{costing(users.balance)}</p>
                 )}
               </div>
             </div>
@@ -152,5 +162,25 @@ function Home() {
     </>
   );
 }
+
+export const getServerSideProps = async ({ req, res }) => {
+  const token = getCookie("token", { req, res });
+  const id = getCookie("id", { req, res });
+  try {
+    if (!token) throw "NOT ACCESS TOKEN";
+    const data = null;
+    return {
+      props: {
+        data,
+      },
+    };
+  } catch (err) {
+    return {
+      props: {
+        data: err,
+      },
+    };
+  }
+};
 
 export default Home;

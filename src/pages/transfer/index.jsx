@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { getCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Header from "components/Header";
@@ -15,7 +16,7 @@ const myLoader = ({ src, width, quality }) => {
   return `${process.env.NEXT_PUBLIC_IMAGE}${src}?w=${width}&q=${quality || 75}`;
 };
 
-function Home() {
+function Home({ data }) {
   const router = useRouter();
   const dispatch = useDispatch();
   const isData = true;
@@ -24,6 +25,8 @@ function Home() {
 
   const auth = useSelector((state) => state.auth);
   const users = useSelector((state) => state.user);
+
+  if (data === "NOT ACCESS TOKEN") router.push("/login");
 
   useEffect(() => {
     dispatch(
@@ -135,5 +138,25 @@ function Home() {
     </>
   );
 }
+
+export const getServerSideProps = async ({ req, res }) => {
+  const token = getCookie("token", { req, res });
+  const id = getCookie("id", { req, res });
+  try {
+    if (!token) throw "NOT ACCESS TOKEN";
+    const data = null;
+    return {
+      props: {
+        data,
+      },
+    };
+  } catch (err) {
+    return {
+      props: {
+        data: err,
+      },
+    };
+  }
+};
 
 export default Home;

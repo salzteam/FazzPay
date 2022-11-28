@@ -36,8 +36,26 @@ const userReducer = (prevState = initialState, { payload, type }) => {
     userSearch,
     updateSearch,
     checkPin,
+    resetpinMsg,
+    authLogout,
   } = ACTION_STRING;
   switch (type) {
+    case resetpinMsg.concat("_", Rejected):
+      return {
+        ...prevState,
+        isError: true,
+        isLoading: false,
+        pinMsg: null,
+        pinWorng: null,
+      };
+    case resetpinMsg.concat("_", Fulfilled):
+      return {
+        ...prevState,
+        isFulfilled: true,
+        isLoading: false,
+        pinMsg: null,
+        pinWorng: null,
+      };
     case userPin.concat("_", Pending):
       return {
         ...prevState,
@@ -174,6 +192,8 @@ const userReducer = (prevState = initialState, { payload, type }) => {
           balance: payload.data.data.balance,
         },
       };
+    case authLogout.concat("_", Fulfilled):
+      return initialState;
     default:
       return prevState;
   }

@@ -3,6 +3,7 @@ import Image from "next/image";
 import styles from "styles/status.module.css";
 import Sidebar from "components/Sidebar";
 import profile from "src/assets/profile.png";
+import { getCookie } from "cookies-next";
 import Header from "components/Header";
 import Navbar from "components/Navbar";
 import Footer from "components/Footer";
@@ -16,7 +17,7 @@ const myLoader = ({ src, width, quality }) => {
   return `${process.env.NEXT_PUBLIC_IMAGE}${src}?w=${width}&q=${quality || 75}`;
 };
 
-function Status() {
+function Status({ data }) {
   const [success, setSuccess] = useState(false);
   const [failed, setfailed] = useState(false);
 
@@ -25,15 +26,17 @@ function Status() {
   const transaction = useSelector((state) => state.transaction);
   const transfer = transaction.transfer;
 
+  if (data) router.push("/login");
+
   const homeHandler = (e) => {
     e.preventDefault();
-    dispatch(transactionAction.resetTransferThunk());
+    dispatch(transactionAction.resetTransactionFulfilled);
     router.push("/dashboard");
   };
 
   useEffect(() => {
-    if (!transaction.statusTransfer) router.push("/transfer/");
-    if (transaction.statusTransfer === "Success transfer")
+    if (!data && !transaction.statusTransfer) router.push("/transfer/");
+    if (!data && transaction.statusTransfer === "Success transfer")
       return setSuccess(true);
     setfailed(true);
   }, [transaction, router]);
@@ -185,5 +188,25 @@ function Status() {
     </>
   );
 }
+
+export const getServerSideProps = async ({ req, res }) => {
+  const token = getCookie("token", { req, res });
+  const id = getCookie("id", { req, res });
+  try {
+    if (!token) throw "NOT ACCESS TOKEN";
+    const data = null;
+    return {
+      props: {
+        data,
+      },
+    };
+  } catch (err) {
+    return {
+      props: {
+        data: err,
+      },
+    };
+  }
+};
 
 export default Status;

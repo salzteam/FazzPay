@@ -21,6 +21,7 @@ const transactionReducer = (prevState = initialState, { payload, type }) => {
     userConfirmation,
     createTransaction,
     resetTransaction,
+    authLogout,
   } = ACTION_STRING;
   switch (type) {
     case userConfirmation.concat("_", Rejected):
@@ -65,6 +66,8 @@ const transactionReducer = (prevState = initialState, { payload, type }) => {
         isLoading: false,
         history: payload.data.data,
         pagination: payload.data.pagination,
+        transfer: null,
+        statusTransfer: null,
       };
     case resetTransaction.concat("_", Pending):
       return {
@@ -127,7 +130,11 @@ const transactionReducer = (prevState = initialState, { payload, type }) => {
         isLoading: false,
         notification: payload.data.data,
         pagination: payload.data.pagination,
+        transfer: null,
+        statusTransfer: null,
       };
+    case authLogout.concat("_", Fulfilled):
+      return initialState;
     default:
       return prevState;
   }

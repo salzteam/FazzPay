@@ -10,6 +10,8 @@ import css from "styles/Home.module.css";
 import authAction from "src/redux/action/User";
 import transactionAction from "src/redux/action/Transaction";
 
+import defaultPict from "src/assets/default-profile-pic.webp";
+
 import Recive from "components/ReciveHistory";
 import Paid from "components/PaidHistory";
 
@@ -19,6 +21,8 @@ function Home({ data, token }) {
   const auth = useSelector((state) => state.auth);
   const users = useSelector((state) => state.user);
   const transaction = useSelector((state) => state.transaction);
+
+  if (data === "NOT ACCESS TOKEN") router.push("/login");
 
   const getData = () => {
     dispatch(authAction.profileidThunk(data));
@@ -32,7 +36,7 @@ function Home({ data, token }) {
   };
 
   useEffect(() => {
-    if (!auth.userData.token) router.prefetch("/login");
+    // if (!auth.userData.token) router.prefetch("/login");
     getData();
   }, []);
 
@@ -210,14 +214,16 @@ function Home({ data, token }) {
                             />
                           );
                         }
-                        return (
-                          <Paid
-                            key={index}
-                            image={data.image}
-                            username={data.fullName}
-                            price={costing(parseInt(data.amount))}
-                          />
-                        );
+                        if (data.type === "send") {
+                          return (
+                            <Paid
+                              key={index}
+                              image={data.image}
+                              username={data.fullName}
+                              price={costing(parseInt(data.amount))}
+                            />
+                          );
+                        }
                       }
                     })
                   ) : (
@@ -240,6 +246,7 @@ export const getServerSideProps = async ({ req, res }) => {
   const token = getCookie("token", { req, res });
   const id = getCookie("id", { req, res });
   try {
+    if (!token) throw "NOT ACCESS TOKEN";
     const baseUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/profile/${id}`;
     const result = await fetch(baseUrl, {
       headers: {
@@ -255,7 +262,7 @@ export const getServerSideProps = async ({ req, res }) => {
   } catch (err) {
     return {
       props: {
-        data: "null",
+        data: err,
       },
     };
   }

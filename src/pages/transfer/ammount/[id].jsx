@@ -27,7 +27,7 @@ function Home({ data }) {
 
   const users = useSelector((state) => state.user);
 
-  console.log(data);
+  if (!data) router.push("/login");
 
   const selectMonth = (month) => {
     if (month === 1) return "January";
@@ -47,8 +47,8 @@ function Home({ data }) {
   const confirmHandle = (e) => {
     e.preventDefault();
     setErrorMsg();
-    console.log(amount);
     if (amount.length === 0) return setErrorMsg("Input Amount First!");
+    if (amount < 10000) return setErrorMsg("Amount Minimum Rp 10.000");
     let date = new Date();
     let month = date.getUTCMonth("id-ID") + 1; //months from 1-12
     let day = date.getUTCDate("id-ID");
@@ -132,7 +132,7 @@ function Home({ data }) {
             <div className={css["card"]}>
               {data && (
                 <div className={css["image-name"]}>
-                  {data.data.image && (
+                  {data && data.data.image && (
                     <Image
                       loader={myLoader}
                       src={data.data.image}
@@ -217,7 +217,7 @@ function Home({ data }) {
               className={css.continue1}
               // onClick={() => {
               //   confirmHandle;
-              //   // router.push("/confirmation/:id");
+              //   // router.push("/confirmation/:");
               // }}
             >
               <button className={css.continue} onClick={confirmHandle}>
@@ -236,6 +236,7 @@ export const getServerSideProps = async ({ params, req, res }) => {
   const id = params.id;
   const token = getCookie("token", { req, res });
   try {
+    if (!token) throw "NOT ACCESS TOKEN";
     const baseUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/profile/${id}`;
     const result = await fetch(baseUrl, {
       headers: {

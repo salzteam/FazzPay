@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { setCookie } from "cookies-next";
+import { setCookie, getCookie } from "cookies-next";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
 import Layout from "components/LayoutAuth";
@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function Login() {
+export default function Login({ data, req, res }) {
   const dispatch = useDispatch();
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
@@ -19,6 +19,8 @@ export default function Login() {
   const [notactive, setnotactive] = useState(false);
   const [body, setBody] = useState({});
   const auth = useSelector((state) => state.auth);
+
+  if (data === "ISLOGIN") router.push("/dashboard");
 
   const checkEmptyForm = (body) => {
     if (!body.email || !body.password) return setEmptyForm(true);
@@ -57,8 +59,9 @@ export default function Login() {
     if (auth.isFulfilled) {
       setCookie("token", auth.userData.token);
       setCookie("id", auth.userData.id);
+      const token = getCookie("token", { req, res });
       if (!auth.userData.pin) router.push("/createpin");
-      if (auth.userData.pin) router.push("/dashboard");
+      if (token) router.push("/dashboard");
     }
   }, [auth]);
 
@@ -127,3 +130,23 @@ export default function Login() {
     </>
   );
 }
+
+export const getServerSideProps = async ({ req, res }) => {
+  const token = getCookie("token", { req, res });
+  const id = getCookie("id", { req, res });
+  try {
+    if (token) throw "ISLOGIN";
+    const data = null;
+    return {
+      props: {
+        data,
+      },
+    };
+  } catch (err) {
+    return {
+      props: {
+        data: err,
+      },
+    };
+  }
+};

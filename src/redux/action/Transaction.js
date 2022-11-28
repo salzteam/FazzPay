@@ -50,9 +50,9 @@ const TransactionRejected = (error) => ({
   payload: { error },
 });
 
-const resetTransactionFulfilled = (data) => ({
+const resetTransactionFulfilled = () => ({
   type: ACTION_STRING.resetTransaction.concat("_", Fulfilled),
-  payload: { data },
+  payload: {},
 });
 const resetTransactionRejected = (error) => ({
   type: ACTION_STRING.resetTransaction.concat("_", Rejected),
@@ -68,12 +68,15 @@ const resetTransferThunk = () => {
     }
   };
 };
-const createTransactionThunk = (body, token) => {
+const createTransactionThunk = (body, token, cb) => {
   return async (dispatch) => {
     try {
       dispatch(TransactionPending());
       const result = await CreateTransfer(body, token);
       dispatch(TransactionFulfilled(result.data));
+      if (typeof cb === "function") {
+        cb();
+      }
     } catch (error) {
       dispatch(TransactionRejected(error));
     }
@@ -117,6 +120,7 @@ const transactionAction = {
   confirmationThunk,
   createTransactionThunk,
   resetTransferThunk,
+  resetTransactionFulfilled,
 };
 
 module.exports = transactionAction;

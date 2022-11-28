@@ -11,7 +11,7 @@ const ReactCodeInput = dynamic(import("react-code-input"));
 
 const ModalConfirm = () => {
   const [pin, setPin] = useState("");
-  const [btnAccess, setBtn] = useState();
+  const [btnAccess, setBtn] = useState(false);
   const [errPin, setErrpin] = useState();
 
   const router = useRouter();
@@ -20,11 +20,37 @@ const ModalConfirm = () => {
   const auth = useSelector((state) => state.auth);
   const transaction = useSelector((state) => state.transaction);
 
-  const checkPinHandler = (e) => {
+  const navigate = () => {
+    router.push("/transfer/status");
+  };
+
+  const transferHandler = () => {
+    const sendData = {
+      receiverId: transaction.transfer.receiverId,
+      amount: transaction.transfer.total,
+      notes: transaction.transfer.notes,
+    };
+    dispatch(
+      transactionAction.createTransactionThunk(
+        sendData,
+        auth.userData.token,
+        navigate
+      )
+    );
+  };
+
+  const checkPinHandler = async (e) => {
     e.preventDefault();
     setErrpin();
     if (!btnAccess) return;
-    dispatch(userAction.checkpinThunk(pin, auth.userData.token));
+    const sendData = {
+      receiverId: transaction.transfer.receiverId,
+      amount: transaction.transfer.total,
+      notes: transaction.transfer.notes,
+    };
+    dispatch(
+      userAction.checkpinThunk(pin, auth.userData.token, transferHandler)
+    );
   };
 
   const pinHandler = (e) => {
@@ -37,19 +63,25 @@ const ModalConfirm = () => {
   }, [pin]);
 
   useEffect(() => {
-    // if (users.isLoading) setBtn(true);
+    if (transaction.isLoading) setBtn(true);
+    if (!transaction.isLoading) setBtn(false);
     if (users.pinWorng) setErrpin("Pin Worng !");
-    if (users.pinMsg === "Correct pin") {
-      const sendData = {
-        receiverId: transaction.transfer.receiverId,
-        amount: transaction.transfer.total,
-        notes: transaction.transfer.notes,
-      };
-      dispatch(
-        transactionAction.createTransactionThunk(sendData, auth.userData.token)
-      );
-    }
-    if (transaction.statusTransfer) router.push("/transfer/status");
+    // if (users.isFulfilled) {
+    // const sendData = {
+    //   receiverId: transaction.transfer.receiverId,
+    //   amount: transaction.transfer.total,
+    //   notes: transaction.transfer.notes,
+    // };
+    // dispatch(
+    //   transactionAction.createTransactionThunk(sendData, auth.userData.token)
+    // );
+    //   if (transaction.statusTransfer) router.push("/transfer/status");
+    // }
+    //   dispatch(userAction.resetpinMsgThunk());
+    // }
+    // if (users.pinMsg) {
+    //   router.push("/transfer/status");
+    // }
   }, [users, auth, dispatch, transaction, router]);
 
   return (

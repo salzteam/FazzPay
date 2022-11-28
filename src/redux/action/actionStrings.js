@@ -6,6 +6,7 @@ export const ACTION_STRING = {
   authReset: "AUTH_RESET_PASSWORD",
   userPin: "PIN_USER",
   checkPin: "CHECK_PIN_USER",
+  resetpinMsg: "RESET_PIN_MSG",
   userGetprofileid: "PROFILE_USER_BY_ID",
   userDashboard: "GET_DASHBOARD",
   userHistoryNotif: "GET_HISTORY_NOTIF",

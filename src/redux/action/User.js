@@ -82,6 +82,18 @@ const updatesearchFulfilled = (data) => ({
   payload: { data },
 });
 
+const resetpinMsghPending = () => ({
+  type: ACTION_STRING.resetpinMsg.concat("_", Pending),
+});
+const resetpinMsgRejected = (error) => ({
+  type: ACTION_STRING.resetpinMsg.concat("_", Rejected),
+  payload: { error },
+});
+const resetpinMsgFulfilled = (data) => ({
+  type: ACTION_STRING.updateSearch.concat("_", Fulfilled),
+  payload: { data },
+});
+
 const pinThunk = (body, id, token) => {
   return async (dispatch) => {
     try {
@@ -93,14 +105,27 @@ const pinThunk = (body, id, token) => {
     }
   };
 };
-const checkpinThunk = (pin, token) => {
+const checkpinThunk = (pin, token, callback) => {
   return async (dispatch) => {
     try {
       dispatch(checkpinPending());
       const result = await checkPin(pin, token);
       dispatch(checkpinFulfilled(result));
+      console.log(typeof callback);
+      if (typeof callback === "function") {
+        callback();
+      }
     } catch (error) {
       dispatch(checkpinRejected(error));
+    }
+  };
+};
+const resetpinMsgThunk = (pin, token) => {
+  return async (dispatch) => {
+    try {
+      dispatch(resetpinMsgFulfilled());
+    } catch (error) {
+      dispatch(resetpinMsgRejected(error));
     }
   };
 };
@@ -168,6 +193,7 @@ const userAction = {
   getUser,
   updateSearch,
   checkpinThunk,
+  resetpinMsgThunk,
 };
 
 module.exports = userAction;
