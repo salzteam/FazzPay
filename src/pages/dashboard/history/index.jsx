@@ -17,7 +17,6 @@ import Recive from "components/ReciveHistory";
 import Paid from "components/PaidHistory";
 
 function Home() {
-  const isData = true;
   const [filter, setFilter] = useState(false);
   const [filterSelect, setfilterSelect] = useState();
 
@@ -26,26 +25,21 @@ function Home() {
   const auth = useSelector((state) => state.auth);
   const users = useSelector((state) => state.user);
   const transaction = useSelector((state) => state.transaction);
-
-  useEffect(() => {
-    if (router.query.filter) {
-      dispatch(
-        transactionAction.HistoryLimitThunk(
-          `page=1&limit=10&filter=${router.query.filter}`,
-          auth.userData.token
-        )
-      );
-    }
-  }, [router]);
+  const [query, setQuery] = useState({
+    page: 1,
+    limit: 50,
+    filter: "MONTH",
+  });
 
   useEffect(() => {
     dispatch(
       transactionAction.HistoryLimitThunk(
-        "page=1&limit=10",
+        `page=${query.page}&limit=${query.limit}&filter=${query.filter}`,
+        // `page=1&limit=10&filter=${router.query.filter}`,
         auth.userData.token
       )
     );
-  }, []);
+  }, [query]);
 
   const filterHandler = (text) => {
     setfilterSelect(text);
@@ -76,7 +70,6 @@ function Home() {
                 className={css.show}
                 onClick={() => {
                   setFilter(filter ? false : true);
-                  console.log(filter);
                 }}
               >
                 {!filterSelect ? "-- Select Filter --" : filterSelect}
@@ -86,6 +79,7 @@ function Home() {
                   className={`fa-regular fa-x ${css["icon"]}`}
                   onClick={() => {
                     setfilterSelect(null);
+                    setFilter(false);
                     router.push("/dashboard/history");
                   }}
                 ></i>
@@ -95,6 +89,7 @@ function Home() {
                   className={filter ? css.filterDownOn2 : css.filterDownOff}
                   onClick={() => {
                     filterHandler("WEEK");
+                    setQuery({ ...query, filter: "WEEK" });
                     setFilter(false);
                     router.push("/dashboard/history?filter=WEEK");
                   }}
@@ -105,6 +100,7 @@ function Home() {
                   className={filter ? css.filterDownOn2 : css.filterDownOff}
                   onClick={() => {
                     filterHandler("MONTH");
+                    setQuery({ ...query, filter: "MONTH" });
                     setFilter(false);
                     router.push("/dashboard/history?filter=MONTH");
                   }}
@@ -115,6 +111,7 @@ function Home() {
                   className={filter ? css.filterDownOn2 : css.filterDownOff}
                   onClick={() => {
                     filterHandler("YEAR");
+                    setQuery({ ...query, filter: "YEAR" });
                     setFilter(false);
                     router.push("/dashboard/history?filter=YEAR");
                   }}
@@ -124,7 +121,7 @@ function Home() {
               </div>
             </div>
           </div>
-          {isData ? (
+          {transaction.history && transaction.history.length !== 0 ? (
             <div
               style={{ overflow: "auto", maxHeight: "47vh" }}
               className={css["containter-history"]}
@@ -138,6 +135,7 @@ function Home() {
                         image={data.image}
                         username={data.fullName}
                         type={data.type}
+                        status={data.status}
                         price={costing(parseInt(data.amount))}
                       />
                     );
@@ -153,10 +151,36 @@ function Home() {
                 })}
             </div>
           ) : (
-            <div>
-              <div className={css["no-data"]}>No Data Available</div>
-            </div>
+            <p className={css["no-data"]}>Nothing Transaction</p>
           )}
+          <div className={css["pagination-container"]}>
+            <div
+              className={`${css["pagination-left"]} ${
+                query.page === 1 ? css["block-pagination"] : undefined
+              }`}
+              onClick={() => {
+                query.page !== 1 &&
+                  setQuery({ ...query, page: query.page - 1 });
+              }}
+            >
+              <i className="bi bi-chevron-left"></i>
+            </div>
+            <div
+              className={`${css["pagination-right"]} ${
+                transaction.pagination &&
+                query.page === transaction.pagination.totalPage
+                  ? css["block-pagination"]
+                  : undefined
+              }`}
+              onClick={() => {
+                transaction.pagination &&
+                  query.page !== transaction.pagination.totalPage &&
+                  setQuery({ ...query, page: query.page + 1 });
+              }}
+            >
+              <i className="bi bi-chevron-right"></i>
+            </div>
+          </div>
         </aside>
       </div>
       <Footer />

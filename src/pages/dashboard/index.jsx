@@ -200,7 +200,8 @@ function Home({ data, token }) {
                       See all
                     </p>
                   </div>
-                  {transaction.notification ? (
+                  {transaction.notification &&
+                  transaction.notification.length !== 0 ? (
                     transaction.notification.map((data, index) => {
                       if (index < 4) {
                         if (data.type !== "send") {
@@ -210,6 +211,7 @@ function Home({ data, token }) {
                               image={data.image}
                               username={data.fullName}
                               type={data.type}
+                              status={data.status}
                               price={costing(parseInt(data.amount))}
                             />
                           );
@@ -227,9 +229,7 @@ function Home({ data, token }) {
                       }
                     })
                   ) : (
-                    <div>
-                      <div className={css["no-data"]}>No Data Available</div>
-                    </div>
+                    <p className={css["no-data"]}>Nothing Transaction</p>
                   )}
                 </div>
               </div>

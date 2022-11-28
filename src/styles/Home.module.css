@@ -46,6 +46,21 @@
   -o-border-radius: 10px;
 }
 
+.pending {
+  color: grey !important;
+}
+
+.no-data {
+  font-weight: 800;
+  font-size: 30px;
+  display: flex;
+  text-align: center;
+  width: 100%;
+  height: 82%;
+  align-items: center;
+  justify-content: center;
+}
+
 .btn i {
   color: #b5b0ed;
 }

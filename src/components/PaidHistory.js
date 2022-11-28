@@ -30,7 +30,6 @@ function PaidHistory({ image, username, price }) {
             style={{ borderRadius: "10px" }}
           />
         )}
-
         <div>
           <p className={css["username"]}>{username}</p>
           <p className={css.status}>Transfer</p>

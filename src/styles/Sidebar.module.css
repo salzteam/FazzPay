@@ -128,10 +128,107 @@
   border-radius: 25px;
   padding: 2rem;
   position: absolute;
+  box-shadow: 0px 4px 20px 0px #0000000D;
   -webkit-border-radius: 25px;
   -moz-border-radius: 25px;
   -ms-border-radius: 25px;
   -o-border-radius: 25px;
+}
+
+.modal-container-topup {
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  width: 503px;
+  height: 417px;
+  box-shadow: 0px 4px 20px 0px #0000000D;
+  top: 10%;
+  left: 35%;
+  min-height: 20rem;
+  border-radius: 25px;
+  padding: 2rem;
+  position: absolute;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  -ms-border-radius: 25px;
+  -o-border-radius: 25px;
+}
+
+.modal-container-topup i {
+  cursor: pointer;
+}
+
+.title-topup {
+  padding-top: 1.5rem;
+  text-align: left;
+  width: 18rem;
+  font-weight: 400;
+  font-size: 16px;
+  color: #3A3D4299;
+}
+
+.input-topup {
+  margin-top: 3.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 0.5rem;
+  border: 1px solid #A9A9A999;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
+.input-topup p {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.line {
+  width: 0.2rem;
+  background-color: #A9A9A999;
+  height: 4rem;
+}
+
+.input-topup input {
+  font-size: 30px;
+  width: 437px;
+  font-weight: 400;
+  border: none;
+  outline: none !important;
+}
+
+.topup-submit {
+  user-select: none;
+  display: flex;
+  justify-content: end;
+  margin-top: 4.5rem;
+}
+
+.topup-submit p {
+  cursor: pointer;
+  width: 170px;
+  color: white;
+  padding: 1rem;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+  border-radius: 12px;
+  background-color: var(--primary);
+  box-shadow: 0px 6px 75px 0px #6457570D;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
+}
+
+.topup-submit p:active {
+  opacity: 0.8;
 }
 
 .container-btn {
@@ -182,7 +279,15 @@
     display: none;
 } */
 
-
+.modal-top {
+  display: flex;
+  width: 100%;
+  font-size: 18px;
+  font-weight: 700;
+  color: #3A3D42;
+  align-items: center;
+  justify-content: space-between;
+}
 
 @media screen and (max-width: 576px) {
   .bg-modal {
