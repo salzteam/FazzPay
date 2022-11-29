@@ -9,7 +9,7 @@ const myLoader = ({ src, width, quality }) => {
   return `${process.env.NEXT_PUBLIC_IMAGE}${src}?w=${width}&q=${quality || 75}`;
 };
 
-function Navbar({ children }) {
+function Navbar({ children, showModals }) {
   const [show, setShow] = useState(false);
 
   const users = useSelector((state) => state.user);
@@ -46,7 +46,7 @@ function Navbar({ children }) {
       <div className={css["navbar"]}>
         <div className={css["navbar-left"]}>
           <div className={css["on-mobile"]} onClick={sidebarHandler}>
-            <Sidebar />
+            <Sidebar showModals={showModals} />
           </div>
           <p className={css.title}>FazzPay</p>
         </div>

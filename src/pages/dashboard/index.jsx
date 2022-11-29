@@ -154,7 +154,7 @@ function Home({ datas }) {
   return (
     <>
       <Header title={"Dashboard"} />
-      <Navbar>
+      <Navbar showModals={topUp}>
         <div className={css.container}>
           <div className={`col-lg-3 ${css.onMobile}`}>
             <Sidebar showModals={topUp} />
