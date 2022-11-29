@@ -198,7 +198,7 @@ function Home({ datas }) {
                   <i className="fa-sharp fa-solid fa-arrow-up"></i>
                   <p>Transfer</p>
                 </div>
-                <div className={css.btn}>
+                <div className={css.btn} onClick={topupHandler}>
                   <i className="fa-solid fa-plus"></i>
                   <p>Top Up</p>
                 </div>
