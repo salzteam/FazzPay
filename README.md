@@ -84,4 +84,4 @@ You may also see any lint errors in the console.
 
 ## Deployment
 
-[Vercel deploy link] (https://fazz-pay.vercel.app/)
+[Vercel deploy link](https://fazz-pay.vercel.app/)
