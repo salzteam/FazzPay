@@ -46,6 +46,11 @@
   -o-border-radius: 10px;
 }
 
+.bar-chart {
+  /* width: 21rem; */
+  height: 17rem !important;
+}
+
 .pending {
   color: grey !important;
 }
@@ -132,7 +137,7 @@
 
 .left-middle {
   display: flex;
-  margin-top: 2rem;
+  margin-top: 1rem;
   justify-content: space-around;
   padding: 10px;
   position: relative;

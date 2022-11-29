@@ -13,7 +13,18 @@ import transactionAction from "src/redux/action/Transaction";
 import Recive from "components/ReciveHistory";
 import Paid from "components/PaidHistory";
 
-function Home({ data }) {
+import {
+  Chart as ChartJS,
+  BarElement,
+  LinearScale,
+  CategoryScale,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
+
+function Home({ datas }) {
+  ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
   const [topUp, setTopup] = useState(false);
 
   const router = useRouter();
@@ -21,11 +32,12 @@ function Home({ data }) {
   const auth = useSelector((state) => state.auth);
   const users = useSelector((state) => state.user);
   const transaction = useSelector((state) => state.transaction);
+  const statistic = useSelector((state) => state.user.dashboard);
 
-  if (data === "NOT ACCESS TOKEN") router.push("/login");
+  if (datas === "NOT ACCESS TOKEN") router.push("/login");
 
   const getData = () => {
-    dispatch(authAction.profileidThunk(data));
+    dispatch(authAction.profileidThunk(datas));
     dispatch(authAction.getDashboards(auth.userData.token, auth.userData.id));
     dispatch(
       transactionAction.HistoryNotifThunk(
@@ -62,6 +74,81 @@ function Home({ data }) {
       phone = "+62 " + phone.slice(1);
       return phone;
     }
+  };
+
+  const incomeData = {
+    label: "Income",
+    data: statistic.listIncome
+      ? [
+          statistic.listIncome[5].total,
+          statistic.listIncome[6].total,
+          statistic.listIncome[0].total,
+          statistic.listIncome[1].total,
+          statistic.listIncome[2].total,
+          statistic.listIncome[3].total,
+          statistic.listIncome[4].total,
+        ]
+      : [],
+    backgroundColor: "#6379F4",
+  };
+
+  const expenseData = {
+    label: "Expense",
+    data: statistic.listExpense
+      ? [
+          statistic.listExpense[5].total,
+          statistic.listExpense[6].total,
+          statistic.listExpense[0].total,
+          statistic.listExpense[1].total,
+          statistic.listExpense[2].total,
+          statistic.listExpense[3].total,
+          statistic.listExpense[4].total,
+        ]
+      : [],
+    backgroundColor: "#9DA6B5",
+  };
+
+  const data = {
+    labels: ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"],
+    datasets: [incomeData, expenseData],
+  };
+
+  const chartOptions = {
+    maintainAspecRatio: false,
+    legend: { display: true },
+    scales: {
+      y: {
+        beginAtZero: true,
+        grid: {
+          display: false,
+        },
+        display: false,
+      },
+      x: {
+        grid: {
+          display: false,
+          drawBorder: false,
+        },
+        gridLines: {},
+      },
+    },
+    plugins: {
+      tooltip: {
+        usePointStyle: true,
+        enabled: true,
+      },
+    },
+    hover: {
+      mode: "nearest",
+      intersec: true,
+    },
+    responsive: true,
+    legend: {
+      label: {
+        fontSize: 14,
+        fontFamily: "Nunito Sans",
+      },
+    },
   };
 
   return (
@@ -160,8 +247,14 @@ function Home({ data }) {
                       </p>
                     </div>
                   </div>
+
                   <div className={css["left-middle"]}>
-                    <p className={css["plus"]}>+Rp65.000</p>
+                    <Bar
+                      data={data}
+                      options={chartOptions}
+                      className={css["bar-chart"]}
+                    />
+                    {/* <p className={css["plus"]}>+Rp65.000</p>
                     <div className={css["static"]}>
                       <div className={css.sat}></div>
                       <p>Sat</p>
@@ -192,7 +285,7 @@ function Home({ data }) {
                     <div className={css["static"]}>
                       <div className={css.fri}></div>
                       <p>Fri</p>
-                    </div>
+                    </div> */}
                   </div>
                 </aside>
                 <div className={css["bottom-right"]}>
@@ -262,16 +355,16 @@ export const getServerSideProps = async ({ req, res }) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    const data = await result.json();
+    const datas = await result.json();
     return {
       props: {
-        data,
+        datas,
       },
     };
   } catch (err) {
     return {
       props: {
-        data: err,
+        datas: err,
       },
     };
   }
