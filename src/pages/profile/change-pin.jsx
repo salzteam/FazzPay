@@ -89,7 +89,7 @@ function CreatePin({ data }) {
       <Head title={"Change Pin"}>
         <Header />
         <div className={styles["main-container"]}>
-          <div className="col-lg-3 col-md-4">
+          <div className={`col-lg-3 col-md-4 ${styles["only-mobile"]}`}>
             <Sidebar />
           </div>
           {isLoading && (

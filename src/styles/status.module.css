@@ -351,3 +351,14 @@ button.confirm {
   display: flex;
   justify-content: center;
 }
+
+@media (max-width: 576px) {
+  .main-status {
+    padding: 0 !important;
+  }
+
+  .buttons {
+    padding-top: 2em;
+    align-self: center;
+  }
+}

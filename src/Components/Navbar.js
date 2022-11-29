@@ -111,7 +111,6 @@ function Navbar({ children }) {
             </div>
           </div>
           <i
-            className="fa-regular fa-bell"
             onClick={notifHandler}
             style={{
               fontSize: "1.6rem",
@@ -119,6 +118,7 @@ function Navbar({ children }) {
               marginLeft: "1rem",
               cursor: "pointer",
             }}
+            className={`fa-regular fa-bell ${css["set-mobile"]}`}
           ></i>
         </div>
       </div>
@@ -139,7 +139,7 @@ function Navbar({ children }) {
                             marginBottom: "0.5rem",
                           }}
                         ></i>
-                        <div style={{ lineHeight: "15px" }}>
+                        <div style={{ lineHeight: "25px" }}>
                           <p className={css["name"]}>
                             {data.type === "accept"
                               ? `Accept from ${data.fullName}`
@@ -164,7 +164,7 @@ function Navbar({ children }) {
                           marginBottom: "0.5rem",
                         }}
                       ></i>
-                      <div style={{ lineHeight: "15px" }}>
+                      <div style={{ lineHeight: "25px" }}>
                         <p className={css["name"]}>
                           Transfer to {data.fullName}
                         </p>

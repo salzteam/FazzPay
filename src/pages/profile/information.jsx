@@ -84,7 +84,7 @@ function PersonalInfo({ data }) {
         <main className={css["container"]}>
           <div className="container">
             <div className={`row ${css["main-content"]}`}>
-              <div className="col-lg-3 col-md-4">
+              <div className={`col-lg-3 col-md-4 ${css["only-mobile"]}`}>
                 <Sidebar />
               </div>
               {isLoading && (

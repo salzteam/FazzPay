@@ -214,4 +214,14 @@
   .title {
     text-align: center;
   }
+
+  .otp-input input {
+    width: 47px !important;
+    height: 72px !important;
+    margin: 6px 7px !important;
+  }
+
+  .description {
+    width: 100%;
+  }
 }

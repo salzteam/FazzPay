@@ -162,4 +162,25 @@
         top: 8rem;
         width: 409px;
     }
+
+    .navbar-right {
+        padding: 26px 24px 24px !important;
+        background-color: white !important;
+    }
+
+    .navbar-left {
+        position: fixed !important;
+        width: 100% !important;
+        background-color: white !important;
+        z-index: 12 !important;
+    }
+
+    .mobile {
+        min-width: 11rem !important;
+        margin-top: 5rem !important;
+    }
+
+    .set-mobile {
+        margin-top: 5rem !important;
+    }
 }

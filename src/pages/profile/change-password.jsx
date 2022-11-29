@@ -102,7 +102,7 @@ function Changepassword({ data }) {
       <Head title={"Change Password"}>
         <Header />
         <div className={css["main-container"]}>
-          <div className="col-lg-3 col-md-4">
+          <div className={`col-lg-3 col-md-4 ${css["only-mobile"]}`}>
             <Sidebar />
           </div>
           {isLoading && (

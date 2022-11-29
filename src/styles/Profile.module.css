@@ -105,8 +105,12 @@
 }
 
 @media screen and (max-width:567px) {
+    .only-mobile {
+        display: none;
+    }
+
     .main-content {
-        padding: 2rem 0;
+        padding: 0rem 0;
     }
 
     .main-content .profile-content {
@@ -129,6 +133,8 @@
         justify-content: space-between;
         align-items: center;
         gap: 1rem;
+        flex-direction: column;
+        padding-top: 3rem;
     }
 
     .main-content .profile-content {

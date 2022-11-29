@@ -63,9 +63,9 @@ function Status({ data }) {
       <Header title={"Status"} />
       <Navbar>
         <div className={styles["main-status"]}>
-          <div className="col-lg-3">
+          {/* <div className="col-lg-3">
             <Sidebar />
-          </div>
+          </div> */}
           <div className={`col-lg-9 ${styles["status-info"]}`}>
             {success && (
               <>

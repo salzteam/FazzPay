@@ -88,12 +88,24 @@
 }
 
 @media screen and (max-width: 576px) {
+    .only-mobile {
+        display: none;
+    }
+
     .container .main-content {
-        padding: 2rem 0;
+        padding: 0rem 0;
     }
 
     .profile-info .definition p {
         max-width: 100%;
         text-align: justify;
+    }
+
+    .container .main-content .profile-info {
+        padding: 4rem 2rem !important;
+    }
+
+    .container {
+        padding: 15px 0;
     }
 }

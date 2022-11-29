@@ -201,6 +201,14 @@
 }
 
 @media (max-width: 576px) {
+  .main-container .box-main {
+    padding: 5rem 2rem !important;
+  }
+
+  .only-mobile {
+    display: none;
+  }
+
   .main-container {
     padding: 1em;
     display: flex;
@@ -226,4 +234,5 @@
   .link-container {
     width: 50%;
   }
+
 }

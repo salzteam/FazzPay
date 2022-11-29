@@ -137,6 +137,29 @@
 }
 
 @media (max-width: 576px) {
+  .main-container .pin-container {
+    padding: 5rem 2rem;
+  }
+
+  .form {
+    padding-top: 5rem;
+  }
+
+  .code-wrapper input {
+    width: 43px !important;
+    gap: 1rem !important;
+    height: 55px !important;
+    margin: 0px 6px !important;
+  }
+
+  .only-mobile {
+    display: none;
+  }
+
+  .description {
+    width: 100% !important;
+  }
+
   .main-container {
     flex-direction: column;
     padding: 1rem;
